@@ -1,0 +1,91 @@
+{% extends "layout.html" %}{% block style %}
+<style>
+    body {
+        background: #FDFEFE;
+    }
+    
+    #accCont {
+        margin: 40px auto;
+        padding: 20px;
+        width: 80%;
+        justify-content: center;
+        border: 1PX solid lightgrey;
+        background: #E8F6F3;
+    }
+    
+    textarea {
+        text-align: left;
+    }
+    
+    hr {
+        opacity: 0;
+    }
+    
+    button {
+        width: 100%;
+    }
+</style>{% endblock %} {% block main %}
+<div class="container" id="accCont" style="width: 60%;">
+    <h2 class="my-1" style="text-align:center;">Account</h2>
+    <form class="row g-3" method="post" autocomplete="on" action="/account/sellers/products/edit/{{srNo}}" enctype="multipart/form-data">
+        <div class="col-12">
+            <label for="inputname" class="form-label">Product Name</label>
+            <textarea type="text" rows="1" class="form-control" id="inputname" name="Name" value="{{data.name}}" placeholder="Full Name" autofocus="on" required>{{data.name}}</textarea>
+        </div>
+        <div class="col-12">
+            <label for="inputdesc" class="form-label">Description</label>
+            <textarea type="text" rows="4" maxlength="500" style="height:auto;" class="form-control" id="inputdesc" required name="Desc" value="{{data.description}}" placeholder="Product Description">{{data.description}} </textarea>
+        </div>
+        <div class="col-12">
+            <label for="inputLongDesc" class="form-label">Long Description</label>
+            <textarea type="text" rows="4" class="form-control" maxlength="2000" id="inputLongDesc" required name="LongDesc" value="{{data.longDesc}}" placeholder="Pls add anyone of ; or | t end to make it point">{{data.longDesc}} </textarea>
+        </div>
+        <div class="col-12">
+            <label for="inputtags" class="form-label">Tags</label>
+            <input type="text" class="form-control" id="inputtags" maxlength="200" required name="Tags" value="{{data.tags}}" placeholder="Enter keywords for which your product will be searched">
+        </div>
+        {% if srNo != '0' %}
+        <div class="col-md-3">
+            <label for="inputimg1" class="form-label">Img1</label>
+            <input type="file" class="form-control" id="inputimg1" autocomplete="off" value="{{data.img1}}" name="Img1" placeholder="img1" accept='image/*'>
+        </div>
+        <div class="col-md-3">
+            <label for="inputimg2" class="form-label">Img2</label>
+            <input type="file" class="form-control" id="inputimg2" autocomplete="off" value="{{data.img2}}" name="Img2" placeholder="img2" accept='image/*'>
+        </div>
+        <div class="col-md-3">
+            <label for="inputimg2" class="form-label">Img3</label>
+            <input type="file" class="form-control" id="inputimg3" autocomplete="off" value="{{data.img3}}" name="Img3" placeholder="img3" accept='image/*'>
+        </div>
+        <div class="col-md-3">
+            <label for="inputimg4" class="form-label">Img4</label>
+            <input type="file" class="form-control" id="inputimg4" autocomplete="off" value="{{data.img4}}" name="Img4" placeholder="img4" accept='image/*'>
+        </div>
+        {% endif %}
+        <div class="col-md-6">
+            <label for="inputPrice" class="form-label">Price</label>
+            <input type="number" class="form-control" id="inputPrice" value="{{data.price}}" placeholder="Product Price" required name="Price">
+        </div>
+
+        <div class="col-md-6">
+            <label for="inpuStatus" class="form-label">Available</label>
+            <select id="inpuStatus" class="form-select" style="height:max-content ;" required name="Available" placeholder="Select Product Availibility">
+                <option selected>{{data.available}}</option>
+                <option>Available</option>
+                <option>Unavailable</option>
+            </select>
+        </div>
+        <div class="col-12">
+            <div class="form-check" style="display:flex;  flex-flow: row wrap;">
+
+                <input class="form-check-input" type="checkbox" id="flexCheckChecked" unchecked required> &nbsp; Check me Out &nbsp; <span></span>
+
+            </div>
+        </div>
+
+        <div class="col-12">
+            <button class="btn btn-primary" type="submit">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

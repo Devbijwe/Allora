@@ -1,0 +1,106 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+#inputSearch {
+    width: 35em;
+}
+
+a,
+.nav-link {
+    color: black;
+}
+
+.hide {
+    display: none;
+}
+
+footer {
+    background: moccasin;
+}
+
+.hide {
+    display: none;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+img {
+    /* user-drag: none; */
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+
+/* **************************************** */
+
+@media only screen and (max-width: 992px) {
+    #inputSearch {
+        width: 70%;
+    }
+}
+
+
+/* page translator */
+
+body>.skiptranslate {
+    display: none;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}
+
+.goog-logo-link {
+    display: none ! important;
+}
+
+.goog-te-gadget {
+    font-size: 0;
+}
+
+div select option,
+div select option>selected {
+    color: black;
+}
+
+div select {
+    border: none;
+    border-bottom: 1px solid black;
+    background: #EAEDED;
+}
+
+@media print {
+    #google_translate_element {
+        display: none;
+    }
+}
+
+
+/* page translator */

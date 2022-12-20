@@ -1,0 +1,353 @@
+{% extends "layout.html" %} {% block style %}
+<style>
+    .hide {
+        display: none;
+    }
+    
+    a {
+        text-decoration: none;
+    }
+    
+    #longDesc {
+        margin-left: 10%;
+    }
+    
+    @media (max-width: 768px) {
+        #longDesc {
+            margin-left: 0px;
+        }
+    }
+</style>
+{% endblock %}{% block main %}
+<div class="container my-1">
+    <div class="my-2" style="width:100%; min-height:60vh ;">
+        {% for prodItems in prod %} {% if prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none %}
+
+        <div class="card mb-3" style="max-width: 100%; min-height:50vh;">
+            <div class="row g-0">
+                <div class="col-md-5">
+                    <div id="carouselExampleCaptions{{prodItems['prodId']}}" class="carousel carousel-dark slide" data-bs-ride="carousel" data-bs-toggle="modal" data-bs-target="#exampleModal{{prodItems['prodId']}}">
+                        <div class="carousel-indicators"> {% if prodItems.img1 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>{% endif %} {% if prodItems.img2!= none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="1" aria-label="Slide 2"></button>{% endif %} {% if prodItems.img3 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="2" aria-label="Slide 3"></button>{% endif %} {% if prodItems.img4 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="3" aria-label="Slide 4"></button>{% endif %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% if prodItems.img1 != none %}
+                            <div class="carousel-item active" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" height="525" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img2 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" height="525" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img3 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" height="525" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img4 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" height="525" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="card-body">
+
+                        <h4 translate="no" class="card-text my-5 mx-auto" style="font-weight: bold;text-shadow:lightslategray 5px 5px 5px ;">{{prodItems['name']}}</h4>
+                        <div class="d-flex justify-content-between">
+                            <a href="#reviewsTitle">
+                                <div class="" style="text-shadow:gold 2px 2px ;">
+                                    <small class="card-text mx-3" id="prodRating"> </small>
+
+                                    <span class="card-text" id="starVal" style="padding-left:30px; vertical-align:sub;font-weight: bold;font-size:x-large;"></span>
+                                    <span class="card-text" style="vertical-align:sub;font-weight: bold;font-size:x-large;"></span>
+                                    <!-- <span class="mx-1"><a href="/reviews/{{prodItems.prodId}}">Click to see Review</a></span> -->
+                                </div>
+                            </a>
+                            <div class="p-2 bd-highlight">
+                                <a class="mx-4" href="#" data-bs-toggle="modal" data-bs-target="#share">
+                                    <i class="fa-solid fa-share-from-square" style="scale:1.5"></i>
+                                </a>
+                                <a class="mx-4" href="#" id="copyToCB">
+                                    <i class="fa-regular fa-copy" style="scale:1.5"></i>
+                                </a>
+                            </div>
+                            <div class="p-2 bd-highlight">
+
+
+                            </div>
+                        </div>
+
+                        <h6 class="card-text my-5"> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{prodItems['description']}}</h6>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="container">
+                                <h3 style="text-align:center;font-weight:bolder">Just at &#8377 <span style="font-size:larger;font-weight:bold;font-size:xx-large ;">{{prodItems['price']}}</span> /-</h3>
+                            </div>
+                            <div class="d-grid gap-3 col-6 mx-auto">
+                                <a href="/account/cart/add/{{prodItems['prodId']}}/1" type="button px-3 px-lg-3" class="btn  btn-outline-dark">
+                                  Add to Cart
+                                </a>
+                                <a href="/checkout/nocart/{{prodItems['prodId']}}=order" type="button px-3 px-lg-3" class="btn  btn-outline-dark">Order Now</a>
+                            </div>
+                            <p class="text-muted hide prodId font-weight:bold">{{prodItems['prodId']}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if prodItems.longDesc!=none %}
+        <div class="container ">
+            <h3 style="font-size:larger;font-weight:bold;font-size:xx-large ;text-align:center;">Description</h3>
+            <div class="my-5" id="">
+
+
+                <ul id="longDesc" style="list-style:outside ;font-weight:normal;text-shadow:lightslategray 2px 2px 5px ;"></ul>
+            </div>
+        </div>{% endif %} {% endif %} {% endfor %}
+    </div>
+    {% if review %}
+    <h3 style="font-size:larger;font-weight:bold;font-size:xx-large ;text-align:center;" id="reviewsTitle">Reviews</h3>
+    <div class="list-group">
+        {% for revItems in review %}{% if revItems.description!=none %}
+        <a href="#" class="my-3 bg-secondary text-white  bg-gradient list-group-item list-group-item-action" style="opacity: .8;" aria-current="true">
+            <small class="reviewCust"></small>
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1 custRate" id=""></h5>
+                <small class="custDate">3 days ago</small>
+            </div>
+            <p class="mb-1">{{revItems.description}}</p>
+
+        </a>{% endif %}{% endfor %}
+
+    </div>{% endif %}
+</div>
+<div class="hide">
+    {% for prodItems in prod %} {% if prodItems.longDesc !=none %}
+    <div id="ldesc">{{prodItems['longDesc']}}</div>
+    {% endif %} {% endfor %} {% for key in review %}
+
+    <span class="revId">{{key.Id}}</span>
+    <span class="revRate">{{key.rating}}</span>
+    <span class="revDesc">{{key.description}}</span>
+    <span class="revCust">{{key.customerId}}</span>
+    <span class="revCustName">{{cust[loop.index0].custName}}</span>
+    <span class="revProd">{{key.productId}}</span>
+    <span class="revSel">{{key.sellerId}}</span>
+    <span class="revDate">{{key.date}}</span> {% endfor %}
+</div>
+<div class="modal fade" id="share" tabindex="-1" aria-labelledby="shareLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareLabel"> To share, scan this QR...</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img src="/static/imgUpload/imgShare/qr_code1.png" class="figure-img img-fluid rounded" style="width:100%;height:100%" alt="Captcha">
+
+            </div>
+            <div class="modal-footer">
+                <div class="p-2 bd-highlight"><a href="#" onclick="downloadQR()"><small class="text-primary">Download</small> </a></div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+    function downloadQR() {
+
+        let a = document.createElement('a');
+        a.href = "/static/imgUpload/imgShare/qr_code1.png";
+        a.download = "qr_share.png";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+    let copyToCB = document.getElementById("copyToCB");
+    copyToCB.addEventListener("click", () => {
+        copyText = String(window.location.href);
+        navigator.clipboard.writeText(copyText);
+        copyToCB.innerHTML = ` <i class="fa-solid fa-copy" style="scale:2"></i>`;
+    })
+
+
+    try {
+        let ldesc = document.getElementById("ldesc").innerHTML;
+        let longDesc = document.getElementById("longDesc");
+        let longdesc = [];
+        if (ldesc.includes("|") == true) {
+            longdesc = ldesc.split("|");
+        } else {
+            longdesc = ldesc.split(";");
+        }
+        let html = '';
+        for (key in longdesc) {
+            longDesc.innerHTML += `<li>${longdesc[key]}</li>`;
+        }
+    } catch {
+
+    }
+
+
+
+
+
+
+    let revId = document.getElementsByClassName("revId");
+    let revRate = document.getElementsByClassName("revRate");
+    let revDesc = document.getElementsByClassName("revDesc");
+    let revCust = document.getElementsByClassName("revCust");
+    let revCustName = document.getElementsByClassName("revCustName");
+    let revProd = document.getElementsByClassName("revProd");
+    let revSel = document.getElementsByClassName("revSel");
+    let revDate = document.getElementsByClassName("revDate");
+    let prodId = document.getElementsByClassName("prodId");
+    let custRate = document.getElementsByClassName("custRate");
+    let custDate = document.getElementsByClassName("custDate");
+    let reviewCust = document.getElementsByClassName("reviewCust");
+    let prodRating = document.getElementById("prodRating");
+    let starVal = document.getElementById("starVal");
+    let revIdArr = [];
+    let revRateArr = [];
+    let revCustArr = [];
+    let revProdArr = [];
+    let revSelArr = [];
+    let revDescArr = [];
+    let revDateArr = [];
+    let revCustNameArr = [];
+
+    Array.from(revId).forEach((elem, index) => {
+        revIdArr.push(revId[index].innerHTML);
+        revRateArr.push(revRate[index].innerHTML)
+        revDescArr.push(revDesc[index].innerHTML)
+        revCustArr.push(revCust[index].innerHTML)
+        revProdArr.push(revProd[index].innerHTML)
+        revSelArr.push(revSel[index].innerHTML)
+        revDateArr.push(revDate[index].innerHTML)
+        revCustNameArr.push(revCustName[index].innerHTML)
+    });
+    let review = {
+        id: revIdArr,
+        rate: revRateArr,
+        desc: revDescArr,
+        custId: revCustArr,
+        custName: revCustNameArr,
+        prodId: revProdArr,
+        sellId: revSelArr,
+        date: revDateArr
+    };
+    let avgstar = 0;
+    for (key in review.rate) {
+        avgstar += parseInt(review.rate[key])
+    }
+    avgstar = avgstar / review.rate.length
+    if (!isNaN(avgstar)) {
+        starAdder(Math.round(avgstar * Math.pow(10, 1)) / Math.pow(10, 1))
+
+    }
+    review.desc.forEach((elem, index) => {
+        if (String(elem) != 'None') {
+            reviewCust[index].innerHTML = `<p> ${review.custName[index]}</p>`;
+            let date1 = new Date(review.date[index])
+            let date2 = new Date;
+            let diff = date2.getTime() - date1.getTime();
+            custDate[index].innerHTML = `<p> ${Math.round(diff / (1000 * 3600 * 24))} days ago</p>`;
+            for (let i = 0; i < review.rate[index]; i++) {
+
+                custRate[index].innerHTML += ` <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                <defs>
+                  <linearGradient id="grad1">
+                    <stop offset="0%" stop-color="black" />
+                    <stop offset="100%" stop-color="black" />
+                  </linearGradient>
+                </defs>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path
+                      fill="url(#grad1)"
+                      stroke="gold"
+                      stroke-width="1.5"
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>`;
+
+
+            }
+        }
+    });
+
+    function getValueBeforeDecimal(num) {
+        const beforeDecimalStr = num.toString().split('.')[0];
+        return Number(beforeDecimalStr);
+    }
+
+    function getDecimalPart(num) {
+        if (Number.isInteger(num)) {
+            return 0;
+        }
+        const decimalStr = num.toString().split('.')[1];
+        return Number(decimalStr);
+    }
+
+    function starAdder(avgstar) {
+        let html = '';
+        let befDec = getValueBeforeDecimal(avgstar);
+        let aftDec = Math.round(getDecimalPart(avgstar) * Math.pow(10, 1)) / Math.pow(10, 1);
+        //console.log(befDec, aftDec);
+        for (let i = 0; i < befDec; i++) {
+            html += `
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                <defs>
+                  <linearGradient id="grad1">
+                    <stop offset="0%" stop-color="black" />
+                    <stop offset="100%" stop-color="black" />
+                  </linearGradient>
+                </defs>
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path
+                      fill="url(#grad1)"
+                      stroke="gold"
+                      stroke-width="1.5"
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>`;
+            //console.log(html);
+        }
+        if (aftDec >= 1) {
+            html += `<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                <defs>
+                  <linearGradient id="grad2">
+                    <stop offset="0%" stop-color="black" />
+                    <stop offset="${aftDec}0%" stop-color="black" />
+                    <stop offset="${aftDec}0%" stop-color="white" />
+                    <stop offset="${10-aftDec}0%" stop-color="white" />
+                  </linearGradient>            
+                </defs>
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path
+                      fill="url(#grad2)"
+                      stroke="gold"
+                      stroke-width="1.5"
+                      d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+                />
+                <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>`;
+        }
+        prodRating.innerHTML = html;
+        //console.log(avgstar)
+
+        starVal.innerHTML = avgstar;
+
+    }
+</script>{% endblock %}

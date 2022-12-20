@@ -1,0 +1,79 @@
+{% extends "layout.html" %}{% block style %}
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+{% endblock %} {% block main %}
+
+
+<div class="container py-3">
+    <div class="row text-center text-dark mb-5">
+        <div class="col-lg-7 mx-auto">
+            <h1 class="display-4">WishList</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <!-- List group-->
+            <ul class="list-group shadow">
+                <!-- list group item-->
+                {% for prodItems in prod %} {% if prodItems.available !="Unavailable" and (prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none) %}
+                <li class="list-group-item">
+                    <!-- Custom content-->
+                    <div class="media d-flex justify-content-between align-items-lg-center flex-column flex-lg-row p-3">
+
+                        <div id="carouselExampleCaptions" style="width:200px;" class="carousel slide mx-1" data-bs-ride="carousel" data-bs-toggle="modal" data-bs-target="#exampleModal{{prodItems['prodId']}}">
+                            <div class="carousel-inner">
+                                {% if prodItems.img1 != none %}
+                                <div class="carousel-item active" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" width="200" height="200" class=" ml-lg-5 order-1 order-lg-2" alt="...">
+                                </div>{% endif %} {% if prodItems.img2 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" width="200" height="200" class="ml-lg-5 order-1 order-lg-2" alt="...">
+                                </div>{% endif %} {% if prodItems.img3 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" width="200" height="200" class="ml-lg-5 order-1 order-lg-2" alt="...">
+                                </div>{% endif %} {% if prodItems.img4 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" width="200" height="200" class="d-flex ml-lg-5 order-1 order-lg-2" alt="...">
+                                </div>{% endif %}
+                            </div>
+                        </div>
+
+
+
+                        <div class="media-body  order-2 order-lg-1">
+                            <a href="/reviews/{{prodItems.prodId}}=view">
+                                <h5 class="mt-0 font-weight-bold mb-2">{{prodItems['name']}}</h5>
+                            </a>
+                            <p class="font-italic text-muted mb-0 small">{{prodItems['description']}}</p>
+                            <div class="d-flex align-items-center justify-content-between mt-1">
+                                <h6 class="font-weight-bold my-2 mx-1">₹{{prodItems['price']}}</h6>
+                                <ul class="list-inline small">
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star text-success"></i></li>
+                                    <li class="list-inline-item m-0"><i class="fa fa-star-o text-gray"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" width="200" class="mx-1 ml-lg-5 order-1 order-lg-2" alt="..."> -->
+                        <!-- <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" width="200" class=" ml-lg-5 order-1 order-lg-2" alt="...">
+                        -->
+                    </div>
+                    <!-- End -->
+                </li>
+                {% endif %} {% endfor %}
+                <!-- End -->
+
+            </ul>
+            <!-- End -->
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

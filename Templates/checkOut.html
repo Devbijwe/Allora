@@ -1,0 +1,370 @@
+{% extends "layout.html" %} {% block style %}
+
+
+<style>
+    .container {
+        max-width: 960px;
+    }
+</style>
+{% endblock %} {% block main %}
+
+
+<div class="container my-5">
+    <main>
+        <div class="row g-5">
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-primary">Your cart</span>
+                    <span class="badge bg-primary rounded-pill" id="itemNo"></span>
+                </h4>
+                <ul class="list-group mb-3">
+                    {% if prod|length> 0 %} {% for prodItems in prod %} {% if prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none %}
+                    <p class="hide indexGenerate">{{loop.index0}}</p>
+                    <p class="hide priceGenerate">{{prodItems['price']}}</p>
+
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <a style="text-decoration:none;" href="/reviews/{{prodItems.prodId}}=view">
+                                <h6 class="my-0">{{prodItems['name']}}</h6>
+                                <small class="text-muted">Quantity:<span id='demoInput{{loop.index0}}'></span></small>
+                            </a>
+                        </div>
+                        <span class="text-muted">&#8377 <span class="prodPrice text-success">{{prodItems['price']}}</span></span>
+                    </li>{% endif %} {% endfor %}{% endif %}{% for item in cart %}
+                    <p class="hide quantityGenerate">{{item['quantity']}}</p>
+                    {% endfor %}
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>WELCOME100</small>
+                        </div>
+                        <span class="text-success">−&#8377 100</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (INR)</span>
+                        <strong>&#8377 <span id="subTotal"></span></strong>
+                    </li>
+                </ul>
+
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code">
+                        <button type="submit" class="btn btn-secondary">Redeem</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-7 col-lg-8">
+                <div class="d-flex justify-content-between">
+                    <div class="bd-highlight">
+                        <h4 class="mb-3 mx-auto">Billing / Shipping address</h4>
+                    </div>
+                    <div class="p-2 bd-highlight"><a href="/account/edit/customers/{{data.custMobile}}"><small class="text-primary">Edit</small> </a></div>
+                </div>
+                <!-- <span class="mx-5"> -->
+
+                <form class="row g-3" method="post" id="check-form" autocomplete="on" action="/checkout/{{option}}/{{prodId}}=order" enctype="multipart/form-data">
+                    <div class="col-md-6">
+                        <label for="inputname" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="inputname" disabled name="fullName" value="{{data.custName}}" placeholder="Full Name" autofocus="on" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputdob" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" id="inputdob" disabled required name="dob" value="{{data.custDoB}}" placeholder="Date of Birth">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputEmail4" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="inputEmail4" disabled required name="email" value="{{data.custEmail}}" placeholder="Email ID">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputMob" class="form-label">Mobile No</label>
+                        <input type="tel" class="form-control" id="inputMob" disabled required name="phoneNo" value="{{data.custMobile}}" maxlength="10" placeholder="Phone No." pattern="[0-9]{10}">
+                    </div>
+
+
+                    <div class="col-md-4" id="states">
+                        <label for="inputState" class="form-label">State</label>
+                        <select id="inputState" class="form-select" onchange="stateselector()" disabled required name="state" value="{{data.custState}}" placeholder="Select Your State">
+    
+                        <option selected>{{data.custState}}</option>
+                        
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputCity" class="form-label">City</label>
+                        <select id="inputCity" class="form-select" disabled required name="city" value="{{data.custCity}}" placeholder="Select Your City">
+                            <option selected>{{data.custCity}}</option>   
+                          </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="inputZip" class="form-label">Zip</label>
+                        <input type="text" class="form-control" id="inputZip" disabled value="{{data.custZip}}" required name="zip" placeholder="zip code">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="inputAddress" disabled value="{{data.custAddress}}" placeholder="1234 Main St" required name="Address">
+                    </div>
+                    <div class="col-12">
+                        <label for="inputAddress2" class="form-label">Address 2</label>
+                        <input type="text" class="form-control" id="inputAddress2" disabled value="{{data.custAddress2}}" placeholder="Apartment, studio, or floor" name="Address2">
+                    </div>
+                    <div class="col-md-4 hide">
+
+                        <input type="text" class="form-control" id="inputTotal" autocomplete="off" name="Total">
+                    </div>
+                    <hr class="my-4">
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="same-address" checked disabled>
+                        <label class="form-check-label" for="same-address">Shipping address is the same as my billing address</label>
+                    </div>
+
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="save-info" checked>
+                        <label class="form-check-label" for="save-info">Save this information for next time</label>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h4 class="mb-3">Payment</h4>
+
+                    <div class="my-3">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="list-group" id="list-tab" role="tablist">
+                                    <a class="my-2 list-group-item list-group-item-action active" id="list-cod-list" data-bs-toggle="list" href="#list-cod" role="tab" aria-controls="list-cod">
+                                        <!-- <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required> -->
+                                        <label class="form-check-label" for="cod">Cash on Delivery</label>
+                                    </a>
+                                    <a class="my-2 list-group-item list-group-item-action" id="list-upi-list" data-bs-toggle="list" href="#list-upi" role="tab" aria-controls="list-upi">
+                                        <label class="form-check-label" for="upi">UPI</label>
+                                    </a>
+                                    <a disabled class="my-2 list-group-item list-group-item-action" id="list-credit-list" data-bs-toggle="list" href="#list-credit" role="tab" aria-controls="list-credit">
+                                        <label class="form-check-label" for="credit">Credit card</label>
+                                    </a>
+                                    <a disabled class="my-2 list-group-item list-group-item-action" id="list-debit-list" data-bs-toggle="list" href="#list-debit" role="tab" aria-controls="list-debit">
+                                        <label class="form-check-label" for="debit">Debit card</label>
+                                    </a>
+
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="list-cod" role="tabpanel" aria-labelledby="list-cod-list">
+                                        <h2>
+                                            <div> <strong>You will need to pay on Delivery</strong>
+                                            </div>
+                                            <div class="my-5"><span>Total (INR) : </span>
+                                                <strong>&#8377 <span id="cod"></span></strong>
+                                            </div>
+                                        </h2>
+                                    </div>
+                                    <div class="tab-pane fade" id="list-upi" role="tabpanel" aria-labelledby="list-upi-list">
+                                        <h4 class="my-2"> Currently Unavailable </h4>
+                                    </div>
+                                    <!-- <div class="tab-pane fade" id="list-credit" role="tabpanel" aria-labelledby="list-credit-list">
+                                        <div class="col-12">
+                                            <label for="cc-name" class="form-label">Name on card</label>
+                                            <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                            <small class="text-muted">Full name as displayed on card</small>
+                                            <div class="invalid-feedback">
+                                                Name on card is required
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="cc-number" class="form-label">Credit card number</label>
+                                            <input type="text" class="form-control" id="cc-number" placeholder="" required>
+                                            <div class="invalid-feedback">
+                                                Credit card number is required
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <label for="cc-expiration" class="form-label">Expiration</label>
+                                            <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YYYY" required>
+                                            <div class="invalid-feedback">
+                                                Expiration date required
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="cc-cvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="cc-cvv" placeholder="xxx" required>
+                                            <div class="invalid-feedback">
+                                                Security code required
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="list-debit" role="tabpanel" aria-labelledby="list-debit-list">
+                                        <div class="col-12">
+                                            <label for="cc-name" class="form-label">Name on card</label>
+                                            <input type="text" class="form-control" id="cc-name" placeholder="" required>
+                                            <small class="text-muted">Full name as displayed on card</small>
+                                            <div class="invalid-feedback">
+                                                Name on card is required
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="dc-number" class="form-label">Debit card number</label>
+                                            <input type="text" class="form-control" id="dc-number" placeholder="" required>
+                                            <div class="invalid-feedback">
+                                                Debit card number is required
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            <label for="cc-expiration" class="form-label">Expiration</label>
+                                            <input type="text" class="form-control" id="cc-expiration" placeholder="MM/YYYY" required>
+                                            <div class="invalid-feedback">
+                                                Expiration date required
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label for="cc-cvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="cc-cvv" placeholder="xxx" required>
+                                            <div class="invalid-feedback">
+                                                Security code required
+                                            </div>
+                                        </div>
+
+
+                                    </div> -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-check">
+                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>
+                            <label class="form-check-label" for="credit">Credit card</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>
+                            <label class="form-check-label" for="debit">Debit card</label>
+                        </div>
+                        <div class="form-check">
+                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>
+                            <label class="form-check-label" for="paypal">PayPal</label>
+                        </div> -->
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <figure class="figure">
+                                <img src="/static/imgUpload/imgCaptcha/captcha1.png" class="figure-img img-fluid rounded" style="width:150px;height:50px" alt="Captcha">
+                                <figcaption class="figure-caption text-center">A Captcha image.</figcaption>
+                                <div id="imgCaptcha" data-captcha='{{ captchaText|tojson }}'></div>
+                            </figure>
+                        </div>
+                        <div class="col-md-2">
+                            <div>
+                                <a href="" style="color: black;"><i style="width:40px ;height:30px;" id="refreshCaptcha" class="fa-solid fa-arrows-rotate"></i></a>
+                            </div>
+                            <label class="my-4 " for="refreshCaptcha"><small> Refresh</small></label>
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control" id="inputCaptcha" name="inputCaptcha" placeholder="Enter Captcha" autofocus="on">
+                            <label class="my-3 form-check-label" for="inputCaptcha"><small> Enter Captcha shown in image.</small></label>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <button class="w-100 btn btn-primary btn-lg" id="checkoutBtn" type="submit">Continue to checkout</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}{% block script %}
+<script>
+    let prodPrice = document.getElementsByClassName('prodPrice');
+    let indexGenerate = document.getElementsByClassName("indexGenerate");
+    let quantityGenerate = document.getElementsByClassName("quantityGenerate");
+    let priceGenerate = document.getElementsByClassName("priceGenerate");
+    let subTotal = document.getElementById("subTotal");
+    let itemNo = document.getElementById('itemNo');
+    let cod = document.getElementById("cod");
+    let checkoutBtn = document.getElementById("checkoutBtn");
+    let inputCaptcha = document.getElementById("inputCaptcha");
+    let inputTotal = document.getElementById("inputTotal")
+    let indexArr = [];
+    let quantityArr = [];
+    let priceArr = [];
+    let finalPrice = [];
+    let sum = 0;
+    Array.from(indexGenerate).forEach((elem) => {
+        indexArr.push(elem.innerHTML);
+    })
+    Array.from(quantityGenerate).forEach((elem, index) => {
+        quantityArr.push(elem.innerHTML);
+        document.getElementById(`demoInput${index}`).innerHTML = elem.innerHTML;
+    })
+    Array.from(priceGenerate).forEach((elem) => {
+        priceArr.push(elem.innerHTML);
+    })
+    console.log(indexArr, quantityArr, priceArr)
+    indexArr.forEach((elem, index) => {
+        prodPrice[index].innerHTML = (priceArr[index] * quantityArr[index]);
+        finalPrice.push(priceArr[index] * quantityArr[index])
+    })
+    finalPrice.forEach((elem, index) => {
+        sum += elem;
+    })
+    subTotal.innerHTML = sum - 100;
+    cod.innerHTML = sum - 100;
+    inputTotal.value = sum - 100;
+    itemNo.innerHTML = indexArr.length;
+
+
+
+
+
+    check()
+
+    function check() {
+        checkoutBtn.addEventListener("click", (e) => {
+            let imgCaptcha = JSON.parse(document.getElementById("imgCaptcha").dataset.captcha);
+            console.log(imgCaptcha)
+            if (imgCaptcha == inputCaptcha.value) {
+                console.log("passes");
+
+            } else {
+
+                e.preventDefault()
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    (function() {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>{% endblock %}

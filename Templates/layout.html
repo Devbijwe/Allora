@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdn.rawgit.com/jackmoore/colorbox/master/jquery.colorbox-min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='assets/favicon.svg') }}" />
+    <title>{{params['favTitle']}}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}"> {% block style %}{% endblock %}
+
+</head>
+
+
+<body style="margin: 0px;padding:0px; overflow-x: hidden;">
+    {% if customize.navColour %}
+
+    <nav translate="no" class="navbar navbar-expand-lg  sticky-top" style="font-weight: bold;color:white;z-index:5;background-color:{{customize.navColour}};">
+
+        {% else %}
+        <nav translate="no" class="navbar navbar-expand-lg  sticky-top" style="background-color: #6DF9F6;font-weight: bold;z-index:5;">
+            {% endif %}
+            <div class="container-fluid px-4 px-lg-5">
+                <a class="navbar-brand" style="color:{{customize.allNavTextColour}}" href="/">
+                    <img src="{{url_for('static',filename='assets/img/brand.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                    <span>{{params['brandName']}}</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                <span><img src="{{url_for('static',filename='assets/img/more.svg')}}" alt="" width="30" height="24"
+                        class="d-inline-block align-text-top"></span>
+            </button>
+                <div class="collapse navbar-collapse px-4 px-lg-5" id="navbarSupportedContent">
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" id="inputSearch" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-dark" style="color:{{customize.allNavTextColour}}" id="btnSearch" type="button">Search</button>
+                    </form>
+                    <ul class="navbar-nav  mb-lg-0">
+                        <li class="nav-item px-3 px-lg-5">
+                            <a class="nav-link p-0 active" style="text-align:center;color:{{customize.allNavTextColour}};" aria-current="page" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{data.custAddress}}  {{data.custCity}}  {{data.custState}}  {{data.custZip}}{{data.Address}}  {{data.City}}  {{data.State}}  {{data.Zip}}  ">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <span style="font-size:small ;text-align:center;"><small>location</small></span>
+                            </a>
+                        </li>{% if not data.Id %}
+                        <li class="nav-item px-3 px-lg-5">
+                            <a class="nav-link p-0 active" href="/cart" style="text-align:center;color:{{customize.allNavTextColour}}" aria-current="page">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span style="font-size:small ;text-align:center;"><small>cart</small></span>
+                            </a>
+                        </li>{% else %}
+                        <li class="nav-item px-3 px-lg-5">
+                            <a class="nav-link p-0 active" style="text-align:center;color:{{customize.allNavTextColour}}" aria-current="page" href="#">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span style="font-size:small ;text-align:center;"><small>option1</small></span>
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item px-3 px-lg-5">
+                            <a class="nav-link p-0 active" href="/wishlist=view" style="text-align:center;color:{{customize.allNavTextColour}}" aria-current="page">
+                                <i class="fa-brands fa-bitbucket"></i>
+                                <span style="font-size:small ;text-align:center;"><small>Wishlist</small></span>
+                            </a>
+                        </li>
+                        <li class="nav-item px-3 px-lg-5">
+                            <a class="nav-link p-0 active" style="text-align:center;color:{{customize.allNavTextColour}}" aria-current="page" href="#">
+                                <i class="fa-solid fa-boxes-packing"></i>
+                                <span style="font-size:small ;text-align:center;"><small>Collection</small></span>
+                            </a>
+                        </li>
+
+                        <!-- {% for navItems in navs %}
+                        <li class="nav-item px-3 px-lg-3">
+                            <a class="nav-link active" style="color:{{customize.allNavTextColour}}" aria-current="page" href="/{{navItems['link']}}">{{navItems['name']}}</a>
+                        </li>
+                        {% endfor %} -->
+                    </ul>
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 float-right ">
+                        <li class="nav-item px-10 px-lg-3" style="text-align:center;">
+                            <div class="btn-group dropstart">
+                                <a data-bs-toggle="dropdown" style="text-align:center;color:{{customize.allNavTextColour}};" aria-expanded="false" href="/signup">
+                                {% if data.custImg != none %}
+                                <img src="/static/imgUpload/imgCustomers/{{data.custImg}}" onerror="this.onerror=null;this.src=`{{url_for('static',filename='assets/img/account.svg')}}`" alt="" width="30" height="24" style="clip-path: circle(13px at center);" class="d-inline-block align-text-top">
+                                <!-- <span class = "drop-icon">
+                                    <i class = "fas fa-chevron-down"></i>
+                                  </span> -->
+                                {% else %}
+                                <img src="{{url_for('static',filename='assets/img/account.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                            {% endif %}
+                            <span style="font-size:small;text-align:center;white-space: nowrap;text-transform:capitalize;"><small>{{data.custName}}{{data.Name}}</small></span>
+                            </a>
+                                <ul class="dropdown-menu">
+                                    <!-- <li>
+                                        <a class="dropdown-item" style="padding:16px ;" href="/contact">
+                                            <button class="btn" type="button">
+                                            <img src="{{url_for('static',filename='assets/img/contact.gif')}}" alt=""
+                                                width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span>Contact Us</span>
+                                        </button>
+                                        </a>
+                                    </li> -->
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px;">
+                                            <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#privacy" aria-controls="offcanvasTop">
+                                            <img src="{{url_for('static',filename='assets/img/about.gif')}}" alt=""
+                                                width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span>About</span>
+                                        </button>
+                                        </a>
+                                    </li>
+                                    {% if userAvail %}
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px ;" href="/account/customers">
+                                            <button class="btn" type="button">
+                                        <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt="" 
+                                            width="30" height="24" ssclass="d-inline-block align-text-top">
+                                        <span style="text-transform:capitalize ;">Account</span>
+                                    </button>
+                                        </a>
+                                    </li>
+                                    {% elif sellerAvail %}
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px ;" href="/account/sellers">
+                                            <button class="btn" type="button">
+                                        <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt="" 
+                                            width="30" height="24" ssclass="d-inline-block align-text-top">
+                                        <span style="text-transform:capitalize ;">Account</span>
+                                    </button>
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                                    <li>
+                                        {% if userAvail %}
+                                        <a class="dropdown-item" style="padding:16px;" href="#" data-bs-toggle="modal" data-bs-target="#modelSure">
+                                            <button class="btn" type="button" id="accBtn">
+                                            <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt=""
+                                                width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span style="text-transform:capitalize;">Log Out</span>
+                                        </button>
+                                        </a>
+                                        {% elif sellerAvail %}
+                                        <a class="dropdown-item" style="padding:16px;" href="/logout/sellers">
+                                            <button class="btn" type="button" id="accBtn">
+                                            <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt=""
+                                                width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span style="text-transform:capitalize;">Log Out</span>
+                                        </button>
+                                        </a>
+                                        {% else %}
+                                        <a class="dropdown-item" style="padding:16px ;">
+                                            <button class="btn" type="button" id="accBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" aria-controls="offcanvasTop">
+                                        <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt="" width="30" height="24" ssclass="d-inline-block align-text-top">
+                                        <span style="text-transform:capitalize ;">Log In</span>
+                                    </button>
+                                        </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Modal -->
+        <div class="modal fade" id="privacy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content" id="privacyContent" style="text-align: center;"></div>
+            </div>
+        </div>
+
+        <div class="modal fade " id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class=" modal-dialog modal-dialog-centered">
+                <div class="modal-content" id="modaldata">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel" style="text-align:center;text-decoration: underline; font-weight: bold;">Sign Up/Log In</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card" style="width: 100%;height: 100%;">
+                            <div class="card-body">
+                                <h5 class="card-title">Are you Seller or Customer ?</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">Choose one of the option to continue.......</h6>
+                                <p class="card-text"></p>
+                                <a rel="noopener noreferrer" class="card-link">
+                                    <button type="button" class="btn btn-primary btn-lg" data-bs-target="#exampleModalToggle" data-bs-toggle="modal" aria-controls="offcanvasTop">Seller</button>
+                                </a>
+                                <a rel="noopener noreferrer" class="card-link">
+                                    <button type="button" class="btn btn-primary btn-lg" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" aria-controls="offcanvasTop">Customer</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModalToggle" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel" style="text-align:center;text-decoration: underline; font-weight: bold;">Sign Up/Log In</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="card-title">You must be Logged In as a Seller to continue.......</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Plz sign up or log in</h6>
+                        <!-- <p class="card-text"></p> -->
+                        <a href="/signup/sellers" rel="noopener noreferrer" class="card-link">
+                            <button type="button" class="btn btn-primary btn-lg" href="/signup/sellers">Sign Up</button>
+                        </a>
+                        <a href="/login/sellers" rel="noopener noreferrer" class="card-link">
+                            <button type="button" class="btn btn-primary btn-lg" href="/login/sellers">Log In</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModalToggle2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel" style="text-align:center;text-decoration: underline; font-weight: bold;">Sign Up/Log In</h5>
+                    </div>
+                    <div class="modal-body">
+                        <h5 class="card-title">You must be Logged In as a Customer to continue.......</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Plz sign up or log in</h6>
+                        <!-- <p class="card-text"></p> -->
+                        <a href="/signup/customers" rel="noopener noreferrer" class="card-link">
+                            <button type="button" class="btn btn-primary btn-lg" href="/signup/customers">Sign Up</button>
+                        </a>
+
+                        <a href="/login/customers" rel="noopener noreferrer" class="card-link">
+                            <button type="button" class="btn btn-primary btn-lg" href="/login/customers">Log In</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modelSure" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <!-- <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div> -->
+                    <div class="modal-body">
+                        <h5 class="card-title">Are you sure for your Actions?</h5>
+                        <!-- <h6 class="card-subtitle mb-2 text-muted">Plz sign up or log in</h6> -->
+                    </div>
+                    <div class="modal-footer d-grid gap-2 d-md-block">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <a href="/logout/customers"><button type="button" class="btn btn-primary">Yes, Proceed</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <!-- Toast -->
+        {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2;">
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" id="toaster">
+                <div class="toast-header">
+                    <img src="{{ url_for('static',filename='assets/favicon.svg') }}" style="width: 25px;height:25px;" class="rounded me-2" alt="...">
+                    <strong class="me-auto">{{params['brandName']}}</strong>
+                    <small>just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+        <!-- Toast -->
+
+        {% block main %}{% endblock %}
+
+        <div class="hide">
+            <span class="hide" id="checkUser">{{userIn}}</span>
+            <span class="hide" id="checkName">{{name}}</span>
+            <span class="hide" id="checkmobile">{{mobile}}</span>
+            <span class="hide" id="checkemail">{{email}}</span>
+            <span class="hide" id="checkaddress">{{address}}</span>
+        </div>
+        <hr>
+        <!-- <h3 style="text-align:center ;" id="article">Articles</h3> -->
+        <div class="my-5 " id="content"></div>
+        <div class="my-5 " id="contValidate"></div>
+        {% block subMain %} {% endblock %}
+        <!-- <hr> -->
+        <!-- footer -->
+        {% if customize.footerColour %}
+        <footer class="border-top" style="background:{{customize.footerColour}};">
+            {% else %}
+            <footer class="border-top">
+                {% endif %}
+
+                <div class="container px-4 px-lg-5">
+                    <div class="row gx-4 gx-lg-5 justify-content-center">
+                        <div class="col-md-10 col-lg-8 col-xl-7">
+                            <ul class="list-inline text-center" style="margin-top: 80px;">
+                                <li class="list-inline-item" style="padding:30px ;">
+                                    <a href="{{params[ 'tw_url']}}" target="_blank">
+                                        <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item" style="padding:30px ;">
+                                    <a href="{{params[ 'fb_url']}}" target="_blank">
+                                        <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item" style="padding:30px ;">
+                                    <a href="{{params[ 'gh_url']}}" target="_blank">
+                                        <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="list-inline text-center" style="margin-top: 10px;">
+                                <li class="list-inline-item"><a href="#">Privacy</a></li>
+                                <li class="list-inline-item"><a href="#">Terms</a></li>
+                                <li class="list-inline-item"><a href="#">Support</a></li>
+                            </ul>
+                            <div class="large text-center text-muted fst-italic" style="font-weight:bold ;margin-bottom:30px;">
+
+                                <label for="google_translate_element" translate="no">Select a Language</label>
+                                <div id="google_translate_element"></div>
+
+                            </div>
+                            <div translate="no" class="large text-center text-muted fst-italic" style="font-weight:bold ;margin-bottom:30px;">
+                                Copyright &copy; {{params['copyright']}} 2022</div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
+
+            <!-- Option 1: Bootstrap Bundle with Popper -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
+
+            <!-- Option 2: Separate Popper and Bootstrap JS -->
+
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js " integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB " crossorigin="anonymous "></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js " integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13 " crossorigin="anonymous "></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous">
+            </script>
+            <!-- <script>
+        let modaldata = document.getElementById("modaldata");
+        modaldata.innerHTML = ``;
+    </script> -->
+
+            <script src="{{url_for('static',filename='js/scripts.js')}}"></script>
+            <script type="text/javascript">
+                function googleTranslateElementInit() {
+                    new google.translate.TranslateElement({
+                        pageLanguage: 'en',
+                        layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL
+                    }, 'google_translate_element');
+                }
+            </script>
+            <script>
+                const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+                const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+                $(function() {
+                    $('[data-toggle="tooltip"]').tooltip()
+                })
+            </script>
+            {% block script %} {% endblock %}
+</body>
+
+</html>

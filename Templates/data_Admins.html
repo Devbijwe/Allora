@@ -1,0 +1,51 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="position-fixed top-5 end-0 p-3" style="z-index: 2;">
+    <select id="inputPeriod" class="form-select" required name="period" placeholder="Select Your State">
+    <option selected value="Weekly">Weekly</option>
+    <option value="Monthly">Monthly</option>
+    <option value="Yearly">Yearly</option>
+  </select>
+</div>
+<table class="table">
+    <caption>Admins</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Password</th>
+            <th scope="col">Emergency Key</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for admin in admins %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{admin.adminName}}</td>
+            <td>{{admin.adminEmail}}</td>
+            <td>{{admin.adminMob}}</td>
+            <td>{{admin.adminPasswd}}</td>
+            <td>{{admin.emergencyKey}}</td>
+            <td><a href="/edit/{{admin.srNo}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+            <td><a href="/delete/{{admin.srNo}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">De-activate</button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

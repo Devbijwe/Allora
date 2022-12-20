@@ -1,0 +1,47 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="position-fixed top-1 end-0 h-5 w-5 px-5" style="z-index: 2;">
+    <a href="/admin/data/products/edit/0"> <button type="button" style="width:fit-content;" class="btn btn-light">Add New</button></a>
+</div>
+<table class="table">
+    <caption>Products</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Products Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price(&#8377;)</th>
+            <th scope="col">Sold By</th>
+            <th scope="col">Tags</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for prod in products %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{prod.name}}</td>
+            <td>{{prod.description}}</td>
+            <td>{{prod.price}}</td>
+            <td>{{prod.soldBy}}</td>
+            <td>{{prod.tags}}</td>
+            <td><a href="/admin/data/products/edit/{{prod.prodId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+            <td><a href="/admin/data/products/delete/{{prod.prodId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

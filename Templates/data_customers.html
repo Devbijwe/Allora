@@ -1,0 +1,71 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="position-fixed top-1 end-0 h-5 w-5 px-5" style="z-index: 2;">
+    <a href="/admin/data/customers/edit/0"> <button type="button" style="width:fit-content;" class="btn btn-light">Add New</button></a>
+</div>
+<table class="table table-hover">
+    <caption>Customers</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mobile</th>
+            <th scope="col">Password</th>
+            <th scope="col">DoB</th>
+            <th scope="col">Address</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for cust in customers %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{cust.custName}}</td>
+            <td>{{cust.custEmail}}</td>
+            <td>{{cust.custMobile}}</td>
+            <td>{{cust.custPasswd}}</td>
+            <td>{{cust.custDoB}}</td>
+            <td>{{cust.custAddress}}, &nbsp;{{cust.custAddress2}},&nbsp;{{cust.custCity}},&nbsp;{{cust.custState}},&nbsp;{{cust.custZip}}</td>
+            <td><a href="/admin/data/customers/edit/{{cust.custId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+            <td><a href="/admin/data/customers/delete/{{cust.custId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %} {% block script %}
+<script>
+    let inputSearch = document.querySelector("#inputSearch")
+    let td = document.getElementsByTagName("td")
+
+    inputSearch.addEventListener("input", () => {
+        let searchText = inputSearch.value;
+        console.log(searchText)
+        regex = `/ /`
+        const reg = new RegExp(regex, "g");
+        Array.from(td).forEach((elem, index) => {
+
+            if (String(searchText).includes(elem.innerHTML)) {
+                elem.style.background = "lightgrey";
+                console.log("true")
+            } else {
+                elem.style.background = "none";
+            }
+        });
+    })
+</script>
+
+{% endblock %}

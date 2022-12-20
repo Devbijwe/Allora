@@ -1,0 +1,55 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="position-fixed top-1 end-0 h-5 w-5 px-5" style="z-index: 2;">
+    <a href="/admin/data/sellers/edit/0"> <button type="button" style="width:fit-content;" class="btn btn-light">Add New</button></a>
+</div>
+<table class="table table-hover">
+    <caption>Sellers</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Mobile</th>
+
+            <th scope="col">DoB</th>
+            <th scope="col">Company</th>
+            <th scope="col">License Id</th>
+            <th scope="col">Website</th>
+            <th scope="col">Address</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for sel in sellers %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{sel.Name}}</td>
+            <td>{{sel.Email}}</td>
+            <td>{{sel.Mobile}}</td>
+
+            <td>{{sel.DoB}}</td>
+            <td>{{sel.Company}}</td>
+            <td>{{sel.LicenseId}}</td>
+            <td>{{sel.Website}}</td>
+            <td>{{sel.Address}}, &nbsp;{{sel.Address2}},&nbsp;{{sel.City}},&nbsp;{{sel.State}},&nbsp;{{sel.Zip}}</td>
+            <td><a href="/admin/data/sellers/edit/{{sel.Id}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+            <td><a href="/admin/data/sellers/delete/{{sel.Id}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}

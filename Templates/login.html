@@ -1,0 +1,76 @@
+{% extends "layout.html" %} {% block style %}
+<style>
+    body {
+        background: #FDFEFE;
+    }
+    
+    hr {
+        opacity: 0;
+    }
+    
+    #acclogCont {
+        margin: auto;
+        margin-top: 100px;
+        padding: 20px;
+        width: 50%;
+        justify-content: center;
+        background: #E8F6F3;
+        border: 1px solid lightgray;
+    }
+    
+    @media (max-width: 768px) {
+        #acclogCont {
+            margin-top: 100px;
+            padding: 20px;
+            width: 98%;
+            justify-content: center;
+        }
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="container  mx-auto" id="acclogCont">
+
+    {% if pageDisplay=='sellers' %}
+    <h2 class="my-5" style="text-align:center;">Seller Log In</h2>
+    <form class="row g-3" method="post" autocomplete="on" action="/login/sellers" enctype="multipart/form-data">
+        {% else %}
+        <h2 class="my-5" style="text-align:center;"> Customer Log In</h2>
+        <form class="row g-3" method="post" autocomplete="on" action="/login/customers" enctype="multipart/form-data">
+            {% endif %}
+
+            <div class="d-flex flex-column bd-highlight mb-3  justify-content-center" style="height:max-content">
+
+                <div class="col-10 mx-auto flex-grow-1  p-2 bd-highlight">
+                    <label for="inputMob" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="inputMob" required name="username" placeholder="Mobile Number">
+                </div>
+                <div class="col-10 mx-auto flex-grow-1 p-2 bd-highlight">
+                    <label for="inputPassword4" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="inputPassword4" autocomplete="off" required name="password" placeholder="Password">
+                </div>
+            </div>
+            <div class="col-10 mx-auto">
+                <div class="form-check d-flex bd-highlight mb-3">
+                    <div class="p-2 bd-highlight">
+                        <input class="form-check-input " type="checkbox" id="flexCheckChecked" checked required> &nbsp; I accept the &nbsp;<a data-bs-toggle="modal" style="color:black ;text-decoration: underline; cursor: pointer;" data-bs-target="#privacy"
+                            aria-controls="offcanvasTop">terms and conditions</a>
+                    </div>
+                    {% if pageDisplay=='sellers' %}
+                    <p class="ms-auto p-2 bd-highlight" style="text-align:right ;color:black;">Don`t have account , <a style="text-align:right ;color:black;" href="/signup/sellers">Sign Up </a>instead</p>
+                    {% else %}
+                    <p class="ms-auto p-2 bd-highlight" style="text-align:right ;color:black;">Don`t have account , <a style="text-align:right ;color:black;" href="/signup/customers">Sign Up </a>instead</p>
+                    {% endif %}
+
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-grid gap-2 col-8 mx-auto ">
+                    <button class="btn btn-primary" type="submit">Log In</button>
+                </div>
+            </div>
+        </form>
+</div>
+<hr class="my-5" style="opacity: 0;"> {% endblock %} {% block script %} {% endblock %}

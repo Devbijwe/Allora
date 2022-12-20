@@ -1,0 +1,139 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: sans-serif;
+    background: #D5F5E3;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100vh;
+}
+
+a,
+.nav-link {
+    color: black;
+}
+
+#inputSearch {
+    width: 35em;
+}
+
+
+/* .hide {
+    display: none;
+} */
+
+footer {
+    background: moccasin;
+    bottom: auto;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+
+/* **************************************** */
+
+.cont1 {
+    border: 3px solid black;
+    border-radius: 20px;
+    background: #7DCEA0;
+    width: 800px;
+    height: 620px;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    padding: auto auto;
+    padding-top: 50px;
+}
+
+.fl {
+    float: left;
+    width: 110px;
+    line-height: 35px;
+}
+
+.fontLabel {
+    color: black;
+}
+
+.fr {
+    float: right;
+}
+
+.clr {
+    clear: both;
+}
+
+.box {
+    width: 700px;
+    height: 35px;
+    margin-top: 10px;
+    font-family: verdana;
+    font-size: 12px;
+}
+
+.textBox {
+    height: 35px;
+    width: 500px;
+    border: none;
+    padding-left: 20px;
+}
+
+.new {
+    float: left;
+}
+
+.iconBox {
+    height: 35px;
+    width: 40px;
+    line-height: 38px;
+    text-align: center;
+    background: #ff6600;
+}
+
+.terms {
+    line-height: 35px;
+    text-align: center;
+    /* background: #2d3e3f; */
+    color: black;
+}
+
+
+/* .submit {
+    float: right;
+    border: none;
+    color: white;
+    width: 110px;
+    height: 35px;
+    background: #ff6600;
+    text-transform: uppercase;
+    cursor: pointer;
+} */
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+
+/* **************************************** */
+
+@media only screen and (max-width: 992px) {
+    #inputSearch {
+        width: 70%;
+    }
+}

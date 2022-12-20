@@ -1,0 +1,612 @@
+{% extends "layout.html" %} {% block style %}
+<style>
+    footer {
+        display: none;
+    }
+    
+    #offcanvasMain {
+        margin-top: 68px;
+        width: 250px;
+        height: 95vh;
+    }
+    
+    #divMain {
+        min-height: 90vh;
+        padding: 0 250px;
+    }
+    
+    .list-group-item {
+        margin: 10px auto;
+    }
+    
+    img.profile-img {
+        margin: 20px auto;
+        width: 130px;
+        height: 170px;
+        clip-path: circle(60px at center);
+    }
+    
+    a:hover {
+        color: black;
+    }
+    
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+    
+    .vstack {
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+    
+    .vstack::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+    }
+    
+    @media (max-width: 768px) {
+        #offcanvasMain {
+            margin-top: 68px;
+            width: 130px;
+            height: 95vh;
+        }
+        #divMain {
+            min-height: 90vh;
+            padding: 0 100px;
+        }
+    }
+</style>{% endblock %} {% block main %}
+<!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button> -->
+<div class="offcanvas offcanvas-start show" id="offcanvasMain" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+    {% if userAvail %}
+    <div class="offcanvas-header my-0 py-0">
+        <div class="flex-container">
+            <form class="row g-3" action="/customers/profUpload/{{data.custId}}" method="post" enctype="multipart/form-data">
+                {% if data.custImg != none %}
+                <div class="col-12">
+                    <img class="profile-img" src="/static/imgUpload/imgCustomers/{{data.custImg}}" atl="profile image">
+                </div>
+                {% else %}
+                <div class="col-12 ">
+                    <div class="input-group my-5 mb-3"><label for="inputGroupFile02">You haven't uploaded pic yet</label>
+                        <input type="file" class="form-control" id="inputGroupFile02" name="profileImg" required>
+                    </div>
+                </div>
+                <button class="btn btn-outline-secondary btn-primary" type="submit" style="color: white;">Upload</button> {% endif %}
+            </form>
+        </div>
+    </div>{% endif %}
+    <div class="offcanvas-body row">
+
+
+        <div class="col-12">
+            <div class="list-group" id="list-tab" role="tablist">
+                <a class="list-group-item list-group-item-action active" id="list-messages-list" data-bs-toggle="list" href="#list-messages" role="tab" aria-controls="list-messages">Messages</a>
+
+                <!-- <a class="list-group-item list-group-item-action" id="list-home-list" data-bs-toggle="list" href="#list-home" role="tab" aria-controls="list-home">Home</a> -->
+                <a class="list-group-item list-group-item-action" id="list-profile-list" data-bs-toggle="list" href="#list-profile" role="tab" aria-controls="list-profile">Profile</a> {% if sellerAvail %}
+                <a class="list-group-item list-group-item-action" id="list-products-list" data-bs-toggle="list" href="#list-products" role="tab" aria-controls="list-products">Products</a>{% endif %}
+                <a class="list-group-item list-group-item-action" id="list-orders-list" data-bs-toggle="list" href="#list-orders" role="tab" aria-controls="list-orders">Orders</a>
+                <a class="list-group-item list-group-item-action" id="list-ordersPrev-list" data-bs-toggle="list" href="#list-ordersPrev" role="tab" aria-controls="list-ordersPrev">Previous Orders</a>
+                <a class="list-group-item list-group-item-action" id="list-maps-list" data-bs-toggle="list" href="#list-maps" role="tab" aria-controls="list-maps">Locate Map</a>
+
+                <a class="list-group-item list-group-item-action" id="list-settings-list" data-bs-toggle="list" href="#list-settings" role="tab" aria-controls="list-settings">Settings</a>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div id="divMain">
+
+    <div class="position-fixed top-5 end-0 p-3 px-5">
+        <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#modelSure">Logout</a> -->
+    </div>
+    <div class="row">
+        <div class="col-12 mx-5">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">
+                    <div class="container row g-3 my-5" id="accCont">
+                        <h3 class="my-1" style="text-align:center;">Account</h3>
+                        <!-- <form class="" method="post" autocomplete="on" action="" enctype="multipart/form-data"> -->
+                        <div class="col-md-6">
+                            <label for="inputname" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="inputname" name="fullName" value="{{data.Name}}{{data.custName}}" placeholder="Full Name" autofocus="on" required disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputdob" class="form-label">Date of Birth</label>
+                            <input type="text" class="form-control" id="inputdob" required name="dob" value="{{data.DoB}}{{data.custDoB}}" placeholder="Date of Birth" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputEmail4" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="inputEmail4" required name="email" value="{{data.Email}}{{data.custEmail}}" placeholder="Email ID" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputMob" class="form-label">Mobile No</label>
+                            <input type="text" class="form-control" id="inputMob" required name="phoneNo" value="{{data.Mobile}}{{data.custMobile}}" maxlength="10" placeholder="Phone No." disabled>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputPassword4" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="inputPassword4" autocomplete="off" value="{{data.Passwd}}{{data.custPasswd}}" required name="password" placeholder="Password" disabled>
+                        </div>{% if sellerAvail %}
+                        <div class="col-md-4">
+                            <label for="inputCompany" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" value="{{data.Company}}" name="Company" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputLicense" class="form-label">License No.</label>
+                            <input type="text" class="form-control" id="inputLicense" placeholder="License No." value="{{data.LicenseId}}" required name="LicenseId" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputWeb" class="form-label">Website (optional)</label>
+                            <input type="text" class="form-control" id="inputWeb" placeholder="Website" value="{{data.Website}}" name="Website" disabled>
+                        </div>{% endif %}
+                        <div class="col-md-5" id="states">
+                            <label for="inputState" class="form-label">State</label>
+                            <input id="inputState" class="form-control" required name="state" value="{{data.State}}{{data.custState}}" placeholder="Select Your State" disabled>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input id="inputCity" class="form-control" style="height:max-content ;" required name="city" value="{{data.City}}{{data.custCity}}" placeholder="Select Your City" disabled>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputZip" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" value="{{data.Zip}}{{data.custZip}}" required name="zip" placeholder="zip code" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="inputAddress" value="{{data.Address}}{{data.custAddress}}" placeholder="1234 Main St" required name="Address" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Address 2</label>
+                            <input type="text" class="form-control" id="inputAddress2" value="{{data.Address2}}{{data.custAddress2}}" placeholder="Apartment, studio, or floor" name="Address2" disabled>
+                        </div>{% if sellerAvail %}
+                        <div class="col-12">
+                            <a href="/account/edit/sellers/{{data.Mobile}}">
+                                <button class="btn btn-primary w-100" type="button">Edit</button>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <a href="/account/edit/customers/{{data.custMobile}}">
+                                <button class="btn btn-primary w-100" type="button">Edit</button>
+                            </a>
+                        </div>{% endif %}
+
+                        <!-- </form> -->
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+                    <div class="container row g-3 my-5" id="accCont">
+                        <h3 class="my-1" style="text-align:center;">Account</h3>
+                        <!-- <form class="" method="post" autocomplete="on" action="" enctype="multipart/form-data"> -->
+                        <div class="col-md-6">
+                            <label for="inputname" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="inputname" name="fullName" value="{{data.Name}}{{data.custName}}" placeholder="Full Name" autofocus="on" required disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputdob" class="form-label">Date of Birth</label>
+                            <input type="text" class="form-control" id="inputdob" required name="dob" value="{{data.DoB}}{{data.custDoB}}" placeholder="Date of Birth" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputEmail4" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="inputEmail4" required name="email" value="{{data.Email}}{{data.custEmail}}" placeholder="Email ID" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputMob" class="form-label">Mobile No</label>
+                            <input type="text" class="form-control" id="inputMob" required name="phoneNo" value="{{data.Mobile}}{{data.custMobile}}" maxlength="10" placeholder="Phone No." disabled>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="inputPassword4" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="inputPassword4" autocomplete="off" value="{{data.Passwd}}{{data.custPasswd}}" required name="password" placeholder="Password" disabled>
+                        </div>{% if sellerAvail %}
+                        <div class="col-md-4">
+                            <label for="inputCompany" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" value="{{data.Company}}" name="Company" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputLicense" class="form-label">License No.</label>
+                            <input type="text" class="form-control" id="inputLicense" placeholder="License No." value="{{data.LicenseId}}" required name="LicenseId" disabled>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputWeb" class="form-label">Website (optional)</label>
+                            <input type="text" class="form-control" id="inputWeb" placeholder="Website" value="{{data.Website}}" name="Website" disabled>
+                        </div>{% endif %}
+                        <div class="col-md-5" id="states">
+                            <label for="inputState" class="form-label">State</label>
+                            <input id="inputState" class="form-control" required name="state" value="{{data.State}}{{data.custState}}" placeholder="Select Your State" disabled>
+
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input id="inputCity" class="form-control" style="height:max-content ;" required name="city" value="{{data.City}}{{data.custCity}}" placeholder="Select Your City" disabled>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="inputZip" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="inputZip" value="{{data.Zip}}{{data.custZip}}" required name="zip" placeholder="zip code" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Address</label>
+                            <input type="text" class="form-control" id="inputAddress" value="{{data.Address}}{{data.custAddress}}" placeholder="1234 Main St" required name="Address" disabled>
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress2" class="form-label">Address 2</label>
+                            <input type="text" class="form-control" id="inputAddress2" value="{{data.Address2}}{{data.custAddress2}}" placeholder="Apartment, studio, or floor" name="Address2" disabled>
+                        </div>{% if sellerAvail %}
+                        <div class="col-12">
+                            <a href="/account/edit/sellers/{{data.Mobile}}">
+                                <button class="btn btn-primary w-100" type="button">Edit</button>
+                            </a>
+                        </div>
+                        {% else %}
+                        <div class="col-12">
+                            <a href="/account/edit/customers/{{data.custMobile}}">
+                                <button class="btn btn-primary w-100" type="button">Edit</button>
+                            </a>
+                        </div>{% endif %}
+
+                        <!-- </form> -->
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="list-products" role="tabpanel" aria-labelledby="list-products-list">
+                    <div class="position-fixed top-1 end-0 h-5 w-5 px-5" style="z-index: 2;">
+                        <a href="/account/sellers/products/edit/0"> <button type="button" style="width:fit-content;" class="btn btn-light">Add New</button></a>
+                    </div>
+                    <table class="table w-100">
+                        <caption>Products</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Products Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Price(&#8377;)</th>
+                                <th scope="col">Tags</th>
+                                <th scope="col">Display</th>
+                                <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for prod in products %}
+                            <tr>
+                                <th scope="row">{{loop.index}}</th>
+                                <td>{{prod.name}}</td>
+                                <td>{{prod.description}}</td>
+                                <td>{{prod.price}}</td>
+                                <td>{{prod.tags}}</td>
+                                {% if prod.img1 != none or prod.img2 != none or prod.img3 != none or prod.img4 != none %}
+                                <td>True</td>
+                                {% else %}
+                                <td>False</td>
+                                {% endif %}
+                                <td><a href="/account/sellers/products/edit/{{prod.prodId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+                                <td><a href="/account/sellers/products/delete/{{prod.prodId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Delete</button></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="tab-pane fade" id="list-orders" role="tabpanel" aria-labelledby="list-orders-list">
+                    <div class="container my-5">
+                        <strong class="my-2 mx-auto"> <h2>Your Orders</h2></strong>
+
+                        <div class="list-group">
+                            {% if order %} {% for key1 in order %}{% if key1.isDelivered==0 %}
+                            <li class="list-group-item list-group-item-action">
+                                <h3><strong> Order Id : {{key1.orderId}}</strong></h3>
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+                                    {% for prodItems in prodAll %} {% for key2 in key1.products %} {% if key2==prodItems.prodId %}
+                                    <div class="col">
+
+                                        <div class="card shadow-sm" style="height:100% ;width:100%;  box-shadow: 20px 20px 50px grey inset;">
+                                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                <div class="carousel-inner">
+                                                    {% if prodItems.img1 != none %}
+                                                    <div class="carousel-item active" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img2 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img3 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img4 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %}
+
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="my-0 card-text"><span>Price (1 Item) : </span>
+                                                    <strong>&#8377 <span>{{prodItems.price}}</span></strong>
+                                                </p>
+                                                {% if key1.quantity[loop.index0]!=none %}
+                                                <p class="my-0 card-text"><span>Quantity : </span>
+                                                    <strong> <span>{{key1.quantity[loop.index0]}}</span></strong>
+                                                </p>
+                                                {% else %}
+                                                <p class="my-0 card-text"><span>Quantity : </span>
+                                                    <strong> <span>1</span></strong>
+                                                </p>
+                                                {% endif %}
+                                                <strong> <a href="/reviews/{{prodItems.prodId}}=view" style="text-decoration:none ;">
+                                                    <p class="card-text my-3">{{prodItems.name}}</p>
+                                                </a>
+                                                </strong>
+                                            </div>
+                                        </div>
+
+                                    </div> {% endif %}{% endfor %} {% endfor %}
+                                </div>
+
+                                <div class="my-3 d-grid gap-2 col-12 mx-auto">
+                                    <div style="padding-left: 40%;">
+                                        <div class="">
+                                            <span>Subtotal (INR) : </span>
+                                            <strong>&#8377 <span>{{key1.total+100}}</span></strong>
+                                        </div>
+                                        <div class="">
+                                            <span>Discount (INR) : </span>
+                                            <strong>- &#8377 <span>100</span></strong>
+                                        </div>
+                                        <hr style="width:40%">
+                                        <div class="">
+                                            <span>Total (INR) : </span>
+                                            <strong>&#8377 <span>{{key1.total}}</span></strong>
+                                        </div>
+                                        <div class="my-2">
+                                            <a href="/cancel/order/{{key1.orderId}}=order">
+                                                <button class="btn btn-outline-dark" type="button">Cancel Order</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <hr>{% endif %} {% endfor %}
+                            <!-- dfdfd -->{% for prodItems in ordProd %} {% if prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none %} {% endif %} {% endfor %} {% else %}
+                            <h3 class="my-5 mx-auto card-text" style="font-weight: bold;text-shadow:lightslategray 5px 5px 5px ;">You haven't placed any Order till now.</h3>
+                            {% endif %}
+
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="list-ordersPrev" role="tabpanel" aria-labelledby="list-ordersPrev-list">
+                    <div class="container my-5">
+                        <strong class="my-2 mx-auto"> <h2>Your Delivered Products</h2></strong>
+
+                        <div class="list-group">
+                            {% if order %} {% for key1 in order %}{% if key1.isDelivered==1 %}
+                            <li class="list-group-item list-group-item-action">
+                                <h3><strong> Order Id : {{key1.orderId}}</strong></h3>
+                                <div class="row row-cols-1 row-cols-md-3 g-4">
+                                    {% for prodItems in prodAll %} {% for key2 in key1.products %} {% if key2==prodItems.prodId%}
+                                    <div class="col">
+
+                                        <div class="card shadow-sm" style="height:100% ;width:100%;  box-shadow: 20px 20px 50px grey inset;">
+                                            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                <div class="carousel-inner">
+                                                    {% if prodItems.img1 != none %}
+                                                    <div class="carousel-item active" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img2 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img3 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %} {% if prodItems.img4 != none %}
+                                                    <div class="carousel-item" data-bs-interval="5000">
+                                                        <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                                    </div>{% endif %}
+
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="my-0 card-text"><span>Price (1 Item) : </span>
+                                                    <strong>&#8377 <span>{{prodItems.price}}</span></strong>
+                                                </p>
+                                                {% if key1.quantity[loop.index0]!=none %}
+                                                <p class="my-0 card-text"><span>Quantity : </span>
+                                                    <strong> <span>{{key1.quantity[loop.index0]}}</span></strong>
+                                                </p>
+                                                {% else %}
+                                                <p class="my-0 card-text"><span>Quantity : </span>
+                                                    <strong> <span>1</span></strong>
+                                                </p>
+                                                {% endif %}
+                                                <strong> <a href="/reviews/{{prodItems.prodId}}=view" style="text-decoration:none ;">
+                                                    <p class="card-text my-3">{{prodItems.name}}</p>
+                                                </a>
+                                                </strong>
+                                            </div>
+                                        </div>
+
+                                    </div> {% endif %}{% endfor %} {% endfor %}
+                                </div>
+
+                                <div class="my-3 d-grid gap-2 col-12 mx-auto">
+                                    <div style="padding-left: 40%;">
+                                        <div class="">
+                                            <span>Subtotal (INR) : </span>
+                                            <strong>&#8377 <span>{{key1.total+100}}</span></strong>
+                                        </div>
+                                        <div class="">
+                                            <span>Discount (INR) : </span>
+                                            <strong>- &#8377 <span>100</span></strong>
+                                        </div>
+                                        <hr style="width:40%">
+                                        <div class="">
+                                            <span>Total (INR) : </span>
+                                            <strong>&#8377 <span>{{key1.total}}</span></strong>
+                                        </div>
+                                        <div class="my-2">
+                                            <a href="/cancel/order/{{key1.orderId}}=order">
+                                                <button class="btn btn-outline-dark" type="button">Cancel Order</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+
+                            <hr> {% endif %}{% endfor %}
+                            <!-- dfdfd -->{% for prodItems in ordProd %} {% if prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none %} {% endif %} {% endfor %} {% else %}
+                            <h3 class="my-5 mx-auto card-text" style="font-weight: bold;text-shadow:lightslategray 5px 5px 5px ;">You haven't placed any Order till now.</h3>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="list-maps" role="tabpanel" aria-labelledby="list-maps-list">
+                    <div class="my-5 position-relative" style="background:#EAEDED;width:115%;height:80vh">
+
+                        <iframe style="height:100%;width:100%;" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" id="gmap_canvas" src="https://maps.google.com/maps?width=852&amp;height=547&amp;hl=en&amp;q={{data.Address}}{{data.custAddress}}+' '+{{data.Address2}}{{data.custAddress2}}+' '+{{data.City}}{{data.custCity}}+' '+{{data.State}}{{data.custState}}+()&amp;t=h&amp;z=16&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="list-messages" role="tabpanel " aria-labelledby="list-messages-list">
+                    <div class="my-5 container position-relative" style="background:#EAEDED;width:115%;height:80vh">
+                        <div translate="no" class="vstack gap-3 px-5 w-100" id="vstack" style="height:90%; overflow:auto ;">
+
+                            <div class="bg-transparent w-100 my-4 mx-auto" style="text-align:center;">
+                                All chats are end-to-end Encrypted.
+                            </div>
+                            {% for items in msg %}
+                            <div class=" w-100 my-1">
+                                {% if items.msgFrom=='Admin' %}
+                                <div class="float-start">
+                                    <span class="mx-2 px-2"><span class="mx-1 badge bg-dark rounded-pill float-start"><i class="fa-solid fa-user-secret"></i></span><span>{{items.msgDetail}}</span></span>
+                                    <div style="margin-right:20px; ;">
+                                        <p style="font-size:small;float:right;">
+                                            <sub>{{items.date}}</sub>
+                                        </p>
+                                    </div>
+                                </div>{% else %}
+                                <div class="float-end">
+                                    <span class="mx-2 px-2"><span>{{items.msgDetail}}</span>
+                                    <span class="mx-1 badge bg-dark rounded-pill float-end"><i class="fa-solid fa-user"></i></span></span>
+                                    <div style="margin-right:60px ;">
+                                        <p style="font-size:small;float:right;">
+                                            <sub>{{items.date}}</sub>
+                                        </p>
+                                    </div>
+                                </div>{% endif %}
+                            </div>{% endfor %}
+
+                        </div>
+
+
+                        <div class="position-absolute" style="bottom:10px;width:92%">
+                            <form class="d-flex mx-auto" method="post" action="/msg/add/customer/0=add">
+                                <input class="form-control  me-2" maxlength="1000" autofocus="on" id="msgBrief" name="msgBrief" type="text" placeholder="Type..." aria-label="Search">
+                                <button class="btn btn-outline mx-3 px-4" id="sendBtn" type="submit">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
+                    <div class="my-5 mx-5 container position-relative" style="background:#EAEDED;width:100%;height:80vh">
+
+                        <div class="container  my-5">
+                            <h3 class="card-text" style="font-weight: bold;text-shadow:lightslategray 5px 5px 5px ;">Customize Site</h3>
+                            <form class="row g-3 my-3" method="post" autocomplete="on" action="/customize" enctype="multipart/form-data">
+                                <div class="col-md-3">
+                                    <label for="exampleColorInputNav" class="form-label">Navbar Background</label>
+                                    <input type="color" class="form-control form-control-color" name="colourNav" id="exampleColorInputNav" value="{{customize.navColour}}" title="Choose your color ">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleColorInputSabnav" class="form-label">Sub-Navbar Background</label>
+                                    <input type="color" class="form-control form-control-color" name="colourSubnav" id="exampleColorInputSubnav" value="{{customize.subnavColour}}" title="Choose your color ">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleColorTextnav" class="form-label">Text-colour of All navs</label>
+                                    <input type="color" class="form-control form-control-color" name="navtextcolour" id="exampleColorTextnav" value="{{customize.allNavTextColour}}" title="Choose your color ">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="exampleColorFooter" class="form-label">Footer Background</label>
+                                    <input type="color" class="form-control form-control-color" name="footercolour" id="exampleColorFooter" value="{{customize.footerColour}}" title="Choose your color ">
+                                </div>
+                                <div class="col-12 my-5">
+                                    <button class="btn btn-primary w-100" type="submit">Save Changes</button>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} {% block script %}
+<script>
+    let sendBtn = document.getElementById("sendBtn");
+    let msgBrief = document.getElementById("msgBrief");
+    sendBtn.addEventListener("click", (e) => {
+        if (msgBrief.value != "") {
+            let audio = new Audio("/static/assets/tones/msg_sent.mp3");
+            audio.play();
+        }
+    });
+
+
+
+    setTimeout(updateScroll, 10);
+
+
+
+    function updateScroll() {
+        var element = document.getElementsByClassName("vstack ")[0];
+        element.scrollTop = element.scrollHeight;
+
+    }
+
+
+
+
+
+    function increment(index) {
+
+        document.getElementById(`demoInput${index}`).stepUp();
+    }
+
+    function decrement(index) {
+
+        document.getElementById(`demoInput${index}`).stepDown();
+    }
+</script>
+{% endblock %}

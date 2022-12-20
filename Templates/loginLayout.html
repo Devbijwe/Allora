@@ -1,0 +1,170 @@
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdn.rawgit.com/jackmoore/colorbox/master/jquery.colorbox-min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static',filename='assets/favicon.svg') }}" />
+    <title>{{params['favTitle']}}</title>
+
+    <link rel="stylesheet" href="{{url_for('static',filename='css/signup.css')}}">
+    <!-- <link rel="stylesheet" href="{{url_for('static',filename='css/styles.css')}}"> -->
+
+</head>
+
+
+<body style="margin: 0px;padding:0px; overflow-x: hidden;">
+    <header style="height:100vh;">
+        <nav class="navbar navbar-expand-lg  sticky-top " style="background-color: #6DF9F6;font-weight: bold;z-index:5;">
+            <div class="container-fluid px-4 px-lg-5">
+                <a class="navbar-brand" href="/">
+                    <img src="{{url_for('static',filename='assets/img/brand.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                    <span>{{params['brandName']}}</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                    <span><img src="{{url_for('static',filename='assets/img/more.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top"></span>
+                  </button>
+                <div class="collapse navbar-collapse px-4 px-lg-5" id="navbarSupportedContent">
+
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" id="inputSearch" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-dark" id="btnSearch" type="button">Search</button>
+                    </form>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% for navItems in navs %}
+                        <li class="nav-item px-3 px-lg-3">
+                            <a class="nav-link active" aria-current="page" href="/{{navItems['link']}}">{{navItems['name']}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 float-right ">
+                        <li class="nav-item px-10 px-lg-3">
+                            <div class="btn-group dropstart">
+                                <a data-bs-toggle="dropdown" aria-expanded="false" href="/signup">
+                                    <img src="{{url_for('static',filename='assets/img/account.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px ;" href="/contact">
+                                            <button class="btn" type="button"><img src="{{url_for('static',filename='assets/img/contact.gif')}}" alt="" width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span>Contact Us</span>
+                                        </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px ;">
+                                            <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#privacy" aria-controls="offcanvasTop"><img src="{{url_for('static',filename='assets/img/about.gif')}}" alt="" width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span>About</span>
+                                        </button>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" style="padding:16px ;">
+                                            <button class="btn" type="button" id="accBtn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" aria-controls="offcanvasTop">
+                                            <img src="{{url_for('static',filename='assets/img/signin.gif')}}" alt="" width="30" height="24" ssclass="d-inline-block align-text-top">
+                                            <span style="text-transform:capitalize ;">Account</span>
+                                        </button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="modal fade" id="privacy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content" id="privacyContent" style="text-align: center;"></div>
+            </div>
+        </div>
+        <!-- toast -->
+        {% block main %}{% endblock %} {% with messages = get_flashed_messages() %} {% if messages %} {% for message in messages %}
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 2">
+            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" id="toaster">
+                <div class="toast-header">
+                    <img src="{{ url_for('static',filename='assets/favicon.svg') }}" style="width: 25px;height:25px;" class="rounded me-2" alt="...">
+                    <strong class="me-auto">{{params['brandName']}}</strong>
+                    <small>just now</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    {{message}}
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+        <!-- toast -->
+    </header>
+    <footer class="border-top">
+        <div class="container px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <ul class="list-inline text-center" style="margin-top: 80px;">
+                        <li class="list-inline-item" style="padding:30px ;">
+                            <a href="{{params[ 'tw_url']}}" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item" style="padding:30px ;">
+                            <a href="{{params[ 'fb_url']}}" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li class="list-inline-item" style="padding:30px ;">
+                            <a href="{{params[ 'gh_url']}}" target="_blank">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fas fa-circle fa-stack-2x" style="width: 50px;"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="large text-center text-muted fst-italic" style="font-weight:bold ;margin-bottom:30px;">Copyright &copy; {{params['copyright']}} 2022</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js " integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p " crossorigin="anonymous "></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js " integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js " integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13 " crossorigin="anonymous "></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous">
+    </script>
+    \
+
+
+
+    <script src="{{url_for('static',filename='js/scripts.js')}}"></script>
+</body>
+
+</html>

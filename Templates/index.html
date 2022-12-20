@@ -1,0 +1,350 @@
+{% extends "layout.html" %}{% block style %}
+<style>
+     :root {
+        --size: 60px;
+        --frames: 62;
+    }
+    
+    input {
+        display: none;
+    }
+    
+    .like {
+        display: block;
+        width: var(--size);
+        height: var(--size);
+        cursor: pointer;
+        border-radius: 999px;
+        overflow: visible;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .hearth {
+        background-image: url('https://assets.codepen.io/23500/Hashflag-AppleEvent.svg');
+        background-size: calc(var(--size) * var(--frames)) var(--size);
+        background-repeat: no-repeat;
+        background-position-x: calc(var(--size) * (var(--frames) * -1 + 2));
+        background-position-y: calc(var(--size) * 0.02);
+        width: var(--size);
+        height: var(--size);
+    }
+    
+    input:checked+.hearth {
+        animation: like 1s steps(calc(var(--frames) - 3));
+        animation-fill-mode: forwards;
+    }
+    
+    .wishadder {
+        animation: like 1s steps(calc(var(--frames) - 3));
+        animation-fill-mode: forwards;
+    }
+    
+    @keyframes like {
+        0% {
+            background-position-x: 0;
+        }
+        100% {
+            background-position-x: calc(var(--size) * (var(--frames) * -1 + 3));
+        }
+    }
+    
+    @media (hover: hover) {
+        .like:hover {
+            background-color: #E1255E15;
+        }
+        .hearth:hover {
+            background-position-x: calc(var(--size) * (var(--frames) * -1 + 1));
+        }
+    }
+</style>
+{% endblock %} {% block main %} {% if customize.navColour %}
+<nav class="navbar navbar-expand-lg" style="font-weight: bold;background-color:{{customize.subnavColour}};">
+    {% else %}
+    <nav class="navbar navbar-expand-lg" style="background-color:lightcyan;font-weight: bold;">
+        {% endif %}
+        <ul class="nav nav-tabs">
+            {% for subnavsItems in subnavs %}
+            <li class="nav-item px-4 px-lg-4">
+                <a class="nav-link" style="color:{{customize.allNavTextColour}};" href="#" disabled>{{subnavsItems['name']}}</a>
+            </li>
+            {% endfor %}
+            <!-- <li class="nav-item px-5 px-lg-5">
+            <a class="nav-link active" aria-current="page" href="#">Active</a>
+        </li> -->
+
+        </ul>
+    </nav>
+    <div id="carousels">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+
+                <div class="carousel-item active" data-bs-interval="2000">
+                    <img src="/static/assets/img/offer1.jfif" style="height:50vh;" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/static/assets/img/offer2.jfif" style="height:50vh;" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="2000">
+                    <img src="/static/assets/img/offer3.jfif" style="height:50vh;" class="d-block w-100" alt="...">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5></h5>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+        </div>
+    </div>
+    {% endblock %}{% block subMain %}
+
+    <div class="album py-2 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for prodItems in prod %} {% if prodItems.available !="Unavailable" and (prodItems.img1 != none or prodItems.img2 != none or prodItems.img3 != none or prodItems.img4 != none) %}
+                <div class="col" style="z-index:1 ;">
+                    <div class="card shadow-sm" style="height:100% ;width:100%;  box-shadow: 20px 20px 50px grey inset;">
+                        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel" data-bs-toggle="modal" data-bs-target="#exampleModal{{prodItems['prodId']}}">
+                            <div class="carousel-inner">
+                                {% if prodItems.img1 != none %}
+                                <div class="carousel-item active" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                </div>{% endif %} {% if prodItems.img2 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                </div>{% endif %} {% if prodItems.img3 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                </div>{% endif %} {% if prodItems.img4 != none %}
+                                <div class="carousel-item" data-bs-interval="5000">
+                                    <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" height="225" width="100%" class="d-block w-100" alt="...">
+                                </div>{% endif %}
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <span class="m-0 p-0 float-end" style="">
+                               
+                                <label class="like">
+                                              <input type="checkbox"/> 
+                                              <a  href="/wishlist=upt/add={{prodItems.prodId}}">
+                                              <div class="hearth" id="heart"></div>
+                                            </a>
+                                        </label>
+                            </span>
+                            <a href="/reviews/{{prodItems.prodId}}=view" style="text-decoration:none ;">
+                                <p translate="no" class="card-text" style="font-weight: bold;text-shadow:lightslategray 5px 5px 5px ;">{{prodItems['name']}}
+
+                                </p>
+
+                            </a>
+                            <div>
+                                <small class="card-text my-2 prodRating">
+                              
+                                  </small>
+                                <!-- <span class="mx-1"><a href="/reviews/{{prodItems.prodId}}">Click to see Review</a></span> -->
+                            </div>
+                            <small class="card-text my-2">{{prodItems['description']}}</small>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="container">
+                                    <div class="d-grid">
+
+                                        <h6 style="text-align:center;font-weight:bolder">Just at &#8377 <span style="font-size:larger ;">{{prodItems['price']}}</span> /-</h6>
+
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2 col-6 mx-auto">
+                                    <a href="/account/cart/add/{{prodItems['prodId']}}/1" type="button px-3 px-lg-3" class="btn  btn-outline-dark">
+                                  Add to Cart
+                                </a>
+                                    <a href="/checkout/nocart/{{prodItems['prodId']}}=order" type="button px-3 px-lg-3" class="btn  btn-outline-dark">Order Now</a>
+                                </div>
+                                <small class="text-muted hide prodId">{{prodItems['prodId']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>{% endif %} {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal -->
+    {% for prodItems in prod %}
+    <div class="modal fade my-auto mx-auto" id="exampleModal{{prodItems['prodId']}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div> -->
+                <div class="modal-body">
+                    <div id="carouselExampleCaptions{{prodItems['prodId']}}" class="carousel carousel-dark  slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators"> {% if prodItems.img1 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>{% endif %} {% if prodItems.img2!= none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="1" aria-label="Slide 2"></button>{% endif %} {% if prodItems.img3 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="2" aria-label="Slide 3"></button>{% endif %} {% if prodItems.img4 != none %}
+                            <button type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide-to="3" aria-label="Slide 4"></button>{% endif %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% if prodItems.img1 != none %}
+                            <div class="carousel-item active" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img1}}" height="670" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img2 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img2}}" height="670" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img3 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img3}}" height="670" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %} {% if prodItems.img4 != none %}
+                            <div class="carousel-item" data-bs-interval="5000">
+                                <img src="/static/imgUpload/imgProducts/{{prodItems.img4}}" height="670" width="100%" class="d-block w-100" alt="...">
+                            </div>{% endif %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions{{prodItems['prodId']}}" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                </div>
+                <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <div class="hide">
+        {% for key in review %}
+        <span class="revId">{{key.Id}}</span>
+        <span class="revRate">{{key.rating}}</span>
+        <span class="revDesc">{{key.description}}</span>
+        <span class="revCust">{{key.customerId}}</span>
+        <span class="revProd">{{key.productId}}</span>
+        <span class="revSel">{{key.sellerId}}</span>
+        <span class="revDate">{{key.date}}</span> {% endfor %}
+    </div>
+    {% endblock %} {% block script %}
+    <script>
+        document.getElementById("heart").addEventListener("click", (e) => {
+            e.preventDefault();
+
+        });
+        let revId = document.getElementsByClassName("revId");
+        let revRate = document.getElementsByClassName("revRate");
+        let revDesc = document.getElementsByClassName("revDesc");
+        let revCust = document.getElementsByClassName("revCust");
+        let revProd = document.getElementsByClassName("revProd");
+        let revSel = document.getElementsByClassName("revSel");
+        let revDate = document.getElementsByClassName("revDate");
+        let prodId = document.getElementsByClassName("prodId");
+        let prodRating = document.getElementsByClassName("prodRating");
+        let revIdArr = [];
+        let revRateArr = [];
+        let revCustArr = [];
+        let revProdArr = [];
+        let revSelArr = [];
+        let revDescArr = [];
+        let revDateArr = [];
+
+        Array.from(revId).forEach((elem, index) => {
+            revIdArr.push(revId[index].innerHTML);
+            revRateArr.push(revRate[index].innerHTML)
+            revDescArr.push(revDesc[index].innerHTML)
+            revCustArr.push(revCust[index].innerHTML)
+            revProdArr.push(revProd[index].innerHTML)
+            revSelArr.push(revSel[index].innerHTML)
+            revDateArr.push(revDate[index].innerHTML)
+        });
+        let review = {
+            id: revIdArr,
+            rate: revRateArr,
+            desc: revDescArr,
+            custId: revCustArr,
+            prodId: revProdArr,
+            sellId: revSelArr,
+            date: revDateArr
+        };
+
+        const count = {};
+        const countrate = {};
+        review.prodId.forEach(element => {
+            count[element] = (count[element] || 0) + 1;
+        });
+        //console.log(Object.values(count))
+        Object.keys(count).forEach((element, index) => {
+            countrate[element] = (countrate[element] || 0) + 1;
+        });
+        //console.log(countrate)
+
+        let data = {
+                counts: Object.values(count),
+                products: Object.keys(count),
+                rates: Object.values(countrate)
+            }
+            //console.log(data.products)
+        let c = [];
+        review.prodId.findIndex(finds)
+            //review.prodId.forEach((elem, index) => {})
+
+        function finds(i) {
+            data.products.forEach((elem, index) => {
+                if (i == elem) {
+                    console.log(index, elem)
+                    i
+                }
+            })
+        }
+
+
+
+
+
+        /* for (key in review.prodId) {
+             for (prod in prodId) {
+                 if (review.prodId[key].innerHTML == prodId[prod].innerHTML) {
+                     //console.log(review.rate[key], review.id[key])
+                     prodRating[review.prodId[key]].innerHTML = review.rate[key]
+                     console.log(review.prodId[prod])
+                         //console.log(prodRating[key].innerHTML);
+                     break;
+                 }
+             }
+         }
+
+
+        for (prodkey in prodId) {
+              console.log("p", prodkey)
+              for (key in review.id) {
+                  console.log("k", key)
+                  if (review.id[key].innerHTML == prodId[prodkey].innerHTML) {
+                      console.log("rate:", review.rate, "desc:", review.desc) 
+                  }
+              }
+          };*/
+    </script>
+    {% endblock %}

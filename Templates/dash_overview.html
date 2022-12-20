@@ -1,0 +1,165 @@
+{% extends "admin.html" %} {% block main %}
+<style>
+    .hide {
+        display: none;
+    }
+</style>
+<div class="position-fixed top-0.5 end-0 p-3" style="z-index: 2;">
+    <select id="inputPeriod" class="form-select" required name="period" placeholder="Select Your State">
+    <option selected value="Weekly">Weekly</option>
+    <option value="Monthly">Monthly</option>
+    <option value="Yearly">Yearly</option>
+  </select>
+</div>
+<hr>
+<div class="container my-5">
+    <canvas id="myChart" style="width:100%;height:600px;"></canvas>
+</div>
+<hr>
+<div class="container my-5">
+    <canvas id="myPieChart" style="width:100%;height:600px;"></canvas>
+</div>
+<hr>
+<div class="container my-5">
+    <canvas id="myLineChart" style="width:100%;height:600px;"></canvas>
+</div>
+<hr>
+<div class="hide">
+    {% for key in seller %}
+    <div class="seldate">{{key.date}}</div>
+
+    {% endfor %}</div>
+
+
+
+{% endblock %} {% block script %}
+<script>
+    let seldate = document.getElementsByClassName("seldate");
+    Array.from(seldate).forEach((elem) => {
+        console.log(elem.innerHTML);
+    });
+
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+    var xValues = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    let newsellerArr = [60, 114, 106, 106, 170, 110, 133];
+    let neworderArr = [160, 170, 170, 190, 200, 270, 40];
+    let newcustomerArr = [37, 100, 20, 50, 200, 375, 350];
+    new Chart("myChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                data: newsellerArr,
+                borderColor: "red",
+                label: "New Sellers",
+
+                fill: false
+            }, {
+                data: neworderArr,
+                borderColor: "green",
+                label: "New Orders",
+
+                fill: false
+            }, {
+                data: newcustomerArr,
+                borderColor: "blue",
+                label: "New Customer",
+
+                fill: false
+            }]
+        },
+        options: {
+            legend: {
+                display: true,
+
+                labels: {
+                    fontColor: "#000080",
+                }
+
+            },
+            title: {
+                display: true,
+                text: "Current Situation"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 500
+                    }
+                }],
+            }
+        }
+    });
+
+
+
+    var xValues = ["Mobiles", "Laptops", "Earphonest", "Toys", "Books"];
+    var yValues = [55, 49, 44, 24, 15];
+    var barColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+    ];
+
+    new Chart("myPieChart", {
+        type: "pie",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: yValues
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: "Highest Selling Products"
+            }
+        }
+    });
+
+
+
+
+    var xValues = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    var yValues = [50, 70, 90, 100, 120, 140, 150];
+
+
+    new Chart("myLineChart", {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                fill: false,
+                lineTension: 0,
+                backgroundColor: "rgba(0,0,255,1.0)",
+                borderColor: "rgba(0,0,255,0.1)",
+                data: yValues,
+                label: "Profit"
+            }]
+        },
+        options: {
+            legend: {
+                display: true
+            },
+            title: {
+                display: true,
+                text: "Profit"
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 500
+                    }
+                }],
+            }
+        }
+    });
+</script>
+{% endblock %}

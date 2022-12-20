@@ -1,0 +1,125 @@
+{% extends "layout.html" %} {% block style %}
+<style>
+    body {
+        background: #FDFEFE;
+    }
+    
+    #accCont {
+        margin: auto;
+        padding: 20px;
+        width: 50%;
+        justify-content: center;
+        /* border: 2PX solid black; */
+        background: #E8F6F3;
+    }
+    
+    @media (max-width: 768px) {
+        #accCont {
+            margin-top: 100px;
+            padding: 20px;
+            width: 98%;
+            justify-content: center;
+        }
+        .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+        }
+    }
+</style>
+{% endblock %} {% block main %}
+
+<div class="container my-1" id="accCont">
+    <h2 class="my-1" style="text-align:center;">Sign Up to create your Account</h2>
+    {% if pageDisplay=='sellers' %}
+    <form class="row g-3" method="post" autocomplete="on" action="/signup/sellers" enctype="multipart/form-data">
+        {% else %}
+        <form class="row g-3" method="post" autocomplete="on" action="/signup/customers" enctype="multipart/form-data">
+            {% endif %}
+            <div class="col-md-6">
+                <label for="inputname" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="inputname" name="fullName" placeholder="Full Name" autofocus="on" required>
+            </div>
+            <div class="col-md-6">
+                <label for="inputdob" class="form-label">Date of Birth</label>
+                <input type="date" class="form-control" id="inputdob" required name="dob" placeholder="Date of Birth">
+            </div>
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="inputEmail4" required name="email" placeholder="Email ID">
+            </div>
+            <div class="col-md-6">
+                <label for="inputMob" class="form-label">Mobile No</label>
+                <input type="tel" class="form-control" id="inputMob" required name="phoneNo" maxlength="10" placeholder="Phone No." pattern="[0-9]{10}">
+            </div>
+            <div class="col-md-6">
+                <label for="inputPassword4" class="form-label">Password</label>
+                <input type="password" class="form-control" id="inputPassword4" autocomplete="off" required name="password" placeholder="Password">
+            </div>
+            <div class="col-md-6">
+                <label for="inputRePassword4" class="form-label">Retype Password</label>
+                <input type="password" class="form-control" id="inputRePassword4" required name="repassword" placeholder="Retype Password">
+            </div>
+            <div class="col-md-4" id="states">
+                <label for="inputState" class="form-label">State</label>
+                <select id="inputState" class="form-select" onchange="stateselector()" required name="state" placeholder="Select Your State">
+            <option selected>Select Your State</option>
+          </select>
+            </div>
+            <div class="col-md-6">
+                <label for="inputCity" class="form-label">City</label>
+                <select id="inputCity" class="form-select" required name="city" placeholder="Select Your City">
+                <option selected>Please select State first</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+                <label for="inputZip" class="form-label">Zip</label>
+                <input type="text" class="form-control" id="inputZip" required name="zip" placeholder="zip code">
+            </div>
+            {% if pageDisplay=='sellers' %}
+            <div class="col-md-6">
+                <label for="inputAddress" class="form-label">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required name="Address">
+            </div>
+            <div class="col-md-6">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="Address2">
+            </div>
+            <div class="col-md-4">
+                <label for="inputCompany" class="form-label">Company Name:</label>
+                <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" name="Company">
+            </div>
+            <div class="col-md-4">
+                <label for="inputLicense" class="form-label">License No.</label>
+                <input type="text" class="form-control" id="inputLicense" placeholder="License No." required name="LicenseId">
+            </div>
+            <div class="col-md-4">
+                <label for="inputWeb" class="form-label">Website (optional)</label>
+                <input type="text" class="form-control" id="inputWeb" placeholder="Website" name="Website">
+            </div>
+            {% else %}
+            <div class="col-12">
+                <label for="inputAddress" class="form-label">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St" required name="Address">
+            </div>
+            <div class="col-12">
+                <label for="inputAddress2" class="form-label">Address 2</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor" name="Address2">
+            </div>
+            {% endif %}
+            <div class="col-12">
+                <div class="form-check" style="display:flex;  flex-flow: row wrap;">
+
+                    <input class="form-check-input" type="checkbox" id="flexCheckChecked" checked required> &nbsp; I accept the &nbsp; <span><a data-bs-toggle="modal" style="color:black ;text-decoration: underline; cursor: pointer;" data-bs-target="#privacy" aria-controls="offcanvasTop"> terms and conditions</a></span>                    {% if pageDisplay=='sellers' %}
+                    <p style="text-align:right ;color:black;margin-left:180px">Already have Account , <a style="color: black; " href="/login/sellers">Log In </a>instead</p>
+                    {% else %}
+                    <p style="text-align:right ;color:black;margin-left:180px">Already have Account , <a style="color: black; " href="/login/customers">Log In </a>instead</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="d-grid gap-2 col-8 mx-auto">
+                    <button class="btn btn-primary" type="submit">Sign UP</button>
+                </div>
+            </div>
+        </form>
+</div>{% endblock %} {% block script %}
+<script src="{{url_for('static',filename='js/account.js')}}"></script>{% endblock %}

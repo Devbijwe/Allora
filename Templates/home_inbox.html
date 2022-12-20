@@ -1,0 +1,245 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    .vstack {
+        -ms-overflow-style: none;
+        /* Internet Explorer 10+ */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+    
+    .vstack::-webkit-scrollbar {
+        display: none;
+        /* Safari and Chrome */
+    }
+    /* Importing fonts from Google */
+    
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+    /* Reseting */
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    .container .row .col-lg-4 {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .card {
+        position: relative;
+        padding: 0;
+        margin: 0 !important;
+        border-radius: 20px;
+        overflow: hidden;
+        max-width: 280px;
+        max-height: 340px;
+        cursor: pointer;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .card .card-image {
+        width: 100%;
+        max-height: 340px;
+    }
+    
+    .card .card-image img {
+        width: 100%;
+        max-height: 340px;
+        object-fit: cover;
+    }
+    
+    .card .card-content {
+        position: absolute;
+        bottom: -180px;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(15px);
+        min-height: 140px;
+        width: 100%;
+        transition: bottom .4s ease-in;
+        box-shadow: 0 -10px 10px rgba(255, 255, 255, 0.1);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .card:hover .card-content {
+        bottom: 0px;
+    }
+    
+    .card:hover .card-content h1,
+    .card:hover .card-content h5 {
+        transform: translateY(10px);
+        opacity: 1;
+    }
+    
+    .card .card-content h1,
+    .card .card-content h5 {
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        text-align: center;
+        transition: 0.8s;
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(-40px);
+        transition-delay: 0.2s;
+    }
+    
+    .card .card-content h5 {
+        transition: 0.5s;
+        font-weight: 200;
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+    }
+    
+    .card .card-content .social-icons {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .card .card-content .social-icons li {
+        margin: 10px;
+        transition: 0.5s;
+        transition-delay: calc(0.15s * var(--i));
+        transform: translateY(50px);
+    }
+    
+    .card:hover .card-content .social-icons li {
+        transform: translateY(20px);
+    }
+    
+    .card .card-content .social-icons li a {
+        color: #fff;
+    }
+    
+    .card .card-content .social-icons li a span {
+        font-size: 1.3rem;
+    }
+    
+    @media(max-width: 991.5px) {
+        .container {
+            margin-top: 20px;
+        }
+        .container .row .col-lg-4 {
+            margin: 20px 0px;
+        }
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="container">
+    {% if mainType=="Group" %}
+    <div class="row  my-5">
+        {% for item in msg %}{% for item2 in customers %} {% if item.msgFrom|int==item2.custId |int %} {% if item2.custImg!=none %} {% set img='imgUpload/imgCustomers/'+item2.custImg %}{% endif %}
+        <div class="col-lg-4 my-5">
+            <a href="/admin/home/inbox/{{item2.custId}}=view">
+                <div class="card p-0 ">
+                    <div class="card-image">
+                        <img src="{{ url_for('static',filename= img ) }}" onerror="this.onerror=null;this.src=`{{url_for('static',filename='assets/img/account.svg')}}`" height="250" alt="">
+                    </div>
+                    <div class="card-content d-flex flex-column align-items-center">
+                        <h1 class="pt-2">{{item2.custName}}</h1>
+                        <h5>{{item2.custMobile}}</h5>
+                        <h5>{{item2.custEmail}}</h5>
+
+                        <!-- <ul class="social-icons d-flex justify-content-center">
+                        <li style="--i:1">
+                            <a href="#">
+                                <span class="fab fa-facebook"></span>
+                            </a>
+                        </li>
+                        <li style="--i:2">
+                            <a href="#">
+                                <span class="fab fa-twitter"></span>
+                            </a>
+                        </li>
+                        <li style="--i:3">
+                            <a href="#">
+                                <span class="fab fa-instagram"></span>
+                            </a>
+                        </li>
+                    </ul> -->
+                    </div>
+                </div>
+            </a>
+        </div>{% endif %} {% endfor %}{% endfor %}
+    </div>
+    {% elif mainType=="Individual" %}
+
+    <div class=" my-auto mx-auto position-relative" style="background:#EAEDED;width:100%;height:80vh">
+        <div class="vstack gap-3 px-5 w-100" id="vstack" style="height:90%; overflow:auto ;">
+
+            <div class="bg-transparent w-100 my-4 mx-auto" style="text-align:center;">
+                All chats are end-to-end Encrypted.
+            </div>
+            {% for items in msg %}
+            <div class=" w-100 my-1">
+                {% if items.msgFrom !='Admin' %}
+                <div class="float-start">
+                    <span class="mx-2 px-2">
+                    <span class="mx-1 badge bg-dark rounded-pill float-start">
+                        <i class="fa-solid fa-user-secret"></i></span><span>{{items.msgDetail}}</span></span>
+                    <div style="margin-right:20px; ;">
+                        <p style="font-size:small;float:right;">
+                            <sub>{{items.date}}</sub>
+                        </p>
+                    </div>
+                </div>
+                {% else %}
+                <div class="float-end">
+                    <span class="mx-2 px-2"><span>{{items.msgDetail}}</span>
+                    <span class="mx-1 badge bg-dark rounded-pill float-end"><i class="fa-solid fa-user"></i></span></span>
+                    <div style="margin-right:60px ;">
+                        <p style="font-size:small;float:right;">
+                            <sub>{{items.date}}</sub>
+                        </p>
+                    </div>
+                </div>
+
+                {% endif %}
+            </div>{% endfor %}
+
+        </div>
+
+        <div class="position-absolute mx-auto" style="bottom:10px;width:90%;">
+            <form class="d-flex mx-auto" method="post" action="/msg/add/admin/{{customers.custId}}=add">
+                <input class="form-control me-2" style="margin-left:15%;width:100% ;" maxlength="1000" autofocus="on" id="msgBrief" name="msgBrief" type="text" placeholder="Type..." aria-label="Search">
+                <button class="btn btn-outline mx-3 px-4" style="width:50px;" id="sendBtn" type="submit">
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+
+
+    </div>
+
+
+    {% endif %}
+</div>
+
+{% endblock %} {% block script %}
+
+
+<script>
+    let sendBtn = document.getElementById("sendBtn");
+    let msgBrief = document.getElementById("msgBrief");
+    sendBtn.addEventListener("click", (e) => {
+        if (msgBrief.value != "") {
+            let audio = new Audio("/static/assets/tones/msg_sent.mp3");
+            audio.play();
+        }
+    });
+
+    setTimeout(updateScroll, 10);
+
+
+
+    function updateScroll() {
+        var element = document.getElementsByClassName("vstack ")[0];
+        element.scrollTop = element.scrollHeight;
+
+    }
+</script>
+{% endblock %}

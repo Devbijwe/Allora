@@ -1,0 +1,226 @@
+{% extends "layout.html" %} {% block style %}
+<style>
+    body {
+        background: #FDFEFE;
+    }
+    
+    #accCont {
+        margin: auto;
+        padding: 20px;
+        width: 50%;
+        justify-content: center;
+        /* border: 2PX solid black; */
+        background: #E8F6F3;
+    }
+    
+    hr {
+        opacity: 0;
+    }
+</style>
+{% endblock %} {% block main %} {% if pageDisplay=='customers' and srNo==session['user'] %}
+<div class="container my-5" id="accCont">
+    <h2 class="my-1" style="text-align:center;">Account</h2>
+
+    <!-- <form class="row g-3" method="post" autocomplete="on" action="/account/edit/sellers/{{data.Mobile}}" enctype="multipart/form-data"> -->
+
+    <form class="row g-3" method="post" autocomplete="on" action="/account/edit/customers/{{data.custMobile}}" enctype="multipart/form-data">
+        <div class="col-md-6">
+            <label for="inputname" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputname" name="fullName" value="{{data.custName}}" placeholder="Full Name" autofocus="on" required>
+        </div>
+        <div class="col-md-6">
+            <label for="inputdob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="inputdob" required name="dob" value="{{data.custDoB}}" placeholder="Date of Birth">
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" required name="email" value="{{data.custEmail}}" placeholder="Email ID">
+        </div>
+        <div class="col-md-4">
+            <label for="inputMob" class="form-label">Mobile No</label>
+            <input type="tel" class="form-control" id="inputMob" required name="phoneNo" value="{{data.custMobile}}" maxlength="10" placeholder="Phone No." pattern="[0-9]{10}">
+        </div>
+
+        <div class="col-md-4">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="text" class="form-control" id="inputPassword4" autocomplete="off" value="{{data.custPasswd}}" required name="password" placeholder="Password">
+        </div>
+        <div class="col-md-4" id="states">
+            <label for="inputState" class="form-label">State</label>
+            <select id="inputState" class="form-select" onchange="stateselector()" required name="state" value="{{data.custState}}" placeholder="Select Your State">
+             {% if srNo=='0' %}
+            <option selected>Select your state</option>
+            {% else %}
+            <option selected>{{data.custState}}</option>
+             {% endif %}  
+          </select>
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <select id="inputCity" class="form-select" required name="city" value="{{data.custCity}}" placeholder="Select Your City">
+                <option selected>{{data.custCity}}</option>   
+              </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="inputZip" value="{{data.custZip}}" required name="zip" placeholder="zip code">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input type="text" class="form-control" id="inputAddress" value="{{data.custAddress}}" placeholder="1234 Main St" required name="Address">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" value="{{data.custAddress2}}" placeholder="Apartment, studio, or floor" name="Address2">
+        </div>
+
+
+        <div class="col-12">
+            <div class="d-grid gap-2 col-8 mx-auto">
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif %} {% if pageDisplay=='sellers' and srNo==session['seller'] %}
+<div class="container my-5" id="accCont">
+    <h2 class="my-1" style="text-align:center;">Account</h2>
+
+    <form class="row g-3" method="post" autocomplete="on" action="/account/edit/sellers/{{data.Mobile}}" enctype="multipart/form-data">
+        <div class="col-md-6">
+            <label for="inputname" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="inputname" name="fullName" value="{{data.Name}}" placeholder="Full Name" autofocus="on" required>
+        </div>
+        <div class="col-md-6">
+            <label for="inputdob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="inputdob" required name="dob" value="{{data.DoB}}" placeholder="Date of Birth">
+        </div>
+        <div class="col-md-4">
+            <label for="inputCompany" class="form-label">Company Name</label>
+            <input type="text" class="form-control" id="inputCompany" placeholder="Company Name" value="{{data.Company}}" name="Company">
+        </div>
+        <div class="col-md-4">
+            <label for="inputLicense" class="form-label">License No.</label>
+            <input type="text" class="form-control" id="inputLicense" placeholder="License No." value="{{data.LicenseId}}" required name="LicenseId">
+        </div>
+        <div class="col-md-4">
+            <label for="inputWeb" class="form-label">Website (optional)</label>
+            <input type="text" class="form-control" id="inputWeb" placeholder="Website" value="{{data.Website}}" name="Website">
+        </div>
+        <div class="col-md-4">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" required name="email" value="{{data.Email}}" placeholder="Email ID">
+        </div>
+        <div class="col-md-4">
+            <label for="inputMob" class="form-label">Mobile No</label>
+            <input type="tel" class="form-control" id="inputMob" required name="phoneNo" value="{{data.Mobile}}" maxlength="10" placeholder="Phone No." pattern="[0-9]{10}">
+        </div>
+
+        <div class="col-md-4">
+            <label for="inputPassword4" class="form-label">Password</label>
+            <input type="text" class="form-control" id="inputPassword4" autocomplete="off" value="{{data.Passwd}}" required name="password" placeholder="Password">
+        </div>
+        <div class="col-md-4" id="states">
+            <label for="inputState" class="form-label">State</label>
+            <select id="inputState" class="form-select" onchange="stateselector()" required name="state" value="{{data.State}}" placeholder="Select Your State">
+             {% if srNo=='0' %}
+            <option selected>Select your state</option>
+            {% else %}
+            <option selected>{{data.State}}</option>
+             {% endif %}  
+          </select>
+        </div>
+        <div class="col-md-6">
+            <label for="inputCity" class="form-label">City</label>
+            <select id="inputCity" class="form-select" required name="city" value="{{data.City}}" placeholder="Select Your City">
+                <option selected>{{data.City}}</option>   
+              </select>
+        </div>
+        <div class="col-md-2">
+            <label for="inputZip" class="form-label">Zip</label>
+            <input type="text" class="form-control" id="inputZip" value="{{data.Zip}}" required name="zip" placeholder="zip code">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress" class="form-label">Address</label>
+            <input type="text" class="form-control" id="inputAddress" value="{{data.Address}}" placeholder="1234 Main St" required name="Address">
+        </div>
+        <div class="col-12">
+            <label for="inputAddress2" class="form-label">Address 2</label>
+            <input type="text" class="form-control" id="inputAddress2" value="{{data.Address2}}" placeholder="Apartment, studio, or floor" name="Address2">
+        </div>
+
+
+        <div class="col-12">
+            <div class="d-grid gap-2 col-8 mx-auto">
+                <button class="btn btn-primary" type="submit">Save Changes</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endif %} {% endblock %} {% block script %}
+<script>
+    let inputState = document.getElementById("inputState");
+    let inputCity = document.getElementById("inputCity");
+    async function statesLoader() {
+        let fetching = await fetch("/static/ds/states.json");
+        let data = await fetching.json();
+        return data;
+    }
+
+
+    let a = statesLoader();
+    a.then(data => statesAdder(data))
+    let html = "";
+
+    function statesAdder(data) {
+        Array.from(data).forEach((elem, index) => {
+            html += `<option class="state"> ${elem.name} </option>`
+        });
+        inputState.innerHTML += html;
+    }
+    let state = document.getElementsByClassName("state")
+    Array.from(state).forEach(elem => {
+        elem.addEventListener("select")
+    })
+
+
+
+
+    let selectedState;
+
+    function stateselector() {
+        selectedState = inputState.value;
+        async function cityLoader() {
+            let fetching = await fetch("/static/ds/districts.json");
+            let data = await fetching.json();
+            return data;
+        }
+
+        let b = cityLoader();
+        b.then(data => cityAdder(data))
+            // let html2 = "";
+        console.log(inputState.value);
+    }
+    let html2 = "";
+
+    function cityAdder(data) {
+        // console.log(data.states)
+        html2 = "";
+        inputCity.innerHTML = `<option class="city"> Select Your City </option>`;
+        Array.from(data.states).forEach((element, index) => {
+
+            if (element.state.toLowerCase() == selectedState.toLowerCase()) {
+                Array.from(element.districts).forEach(elem => {
+                    // html2+="" 
+                    html2 += `<option class="city"> ${elem} </option>`
+                    console.log(elem)
+                })
+
+            }
+            // html += `<option> ${elem.name} </option>`
+        });
+        inputCity.innerHTML += html2;
+    }
+</script>{% endblock %}

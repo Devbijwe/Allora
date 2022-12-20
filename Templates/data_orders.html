@@ -1,0 +1,41 @@
+{% extends "admin.html" %}{% block style %}
+<style>
+    caption {
+        text-align: center;
+        font-size: xx-large;
+        font-weight: bold;
+        caption-side: top;
+        margin-bottom: 30px;
+    }
+</style>
+{% endblock %} {% block main %}
+<table class="table">
+    <caption>Orders</caption>
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">OrderId</th>
+            <th scope="col">Customer Id</th>
+            <th scope="col">Seller Id</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for ord in orders %}
+        <tr>
+            <th scope="row">{{loop.index}}</th>
+            <td>{{ord.orderId}}</td>
+            <td>{{ord.productId}}</td>
+            <td>{{ord.sellerId}}</td>
+
+            <td><a href="/edit/{{ord.orderId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Edit</button></a></td>
+            <td><a href="/delete/{{ord.orderId}}"><button class="btn btn-primary text-uppercase" style="width:fit-content ;">Delete</button></a></td>
+        </tr>
+        {% endfor %}
+
+    </tbody>
+</table>
+
+{% endblock %}
