@@ -1,2 +1,2 @@
 # Allora
-This is proper E-Commerce site
+This is an E-Commerce site
